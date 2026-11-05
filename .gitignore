@@ -1,0 +1,9 @@
+# Chỉ đưa lên GitHub mã nguồn và website đã dựng.
+# Ảnh gốc, tài liệu kế hoạch (.docx), file thiết kế gốc và bản cũ giữ lại trên máy.
+/*
+!/.gitignore
+!/README.md
+!/index.html
+!/_src/
+!/website/
+__pycache__/
