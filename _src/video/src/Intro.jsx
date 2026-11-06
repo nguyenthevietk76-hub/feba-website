@@ -1,9 +1,9 @@
-/* FEBA — 20 s intro film (Editorial Swiss: paper / ink / Klein blue)
- * 0.0–3.5 s  masthead: grid draws, FEBA letters rise, rotating badge
- * 3.5–11.5 s four members, one every 2 s
- * 11.5–16.5 s product: B-02 PRO + specs
- * 16.5–20 s  TIỆN LAB + end card
- * One component serves both 16:9 and 9:16 — layout reads width/height.
+/* FEBA · 20 s intro film (Editorial Swiss: paper / ink / Klein blue)
+ * 0.0-3.5 s  masthead: grid draws, FEBA letters rise, rotating badge
+ * 3.5-11.5 s four members, one every 2 s
+ * 11.5-16.5 s product: B-02 PRO + specs
+ * 16.5-20 s  TIỆN LAB + end card
+ * One component serves both 16:9 and 9:16 · layout reads width/height.
  */
 import React, { useEffect, useState } from 'react';
 import {
@@ -73,7 +73,7 @@ const Masthead = () => {
       <div style={{ position: 'absolute', left: pad, right: pad, top: v ? 120 : 70 }}>
         <div style={{ height: 3, background: C.ink, transformOrigin: '0 50%', transform: `scaleX(${ramp(f, 4, 30)})` }} />
         <div style={{ display: 'flex', justifyContent: 'space-between', padding: '18px 0', opacity: ramp(f, 14, 30) }}>
-          <Label size={v ? 20 : 18}>Số 01 — Ấn bản 2026</Label>
+          <Label size={v ? 20 : 18}>Số 01 · Ấn bản 2026</Label>
           {!v && <Label size={18}>Học viện Chính sách và Phát triển</Label>}
           <Label size={v ? 20 : 18}>Kinh doanh số 2026</Label>
         </div>
@@ -148,7 +148,7 @@ const Member = ({ m }) => {
 };
 
 /* ---------- Scene 3: product ---------- */
-const SPECS = [{ v: 200, t: '200', u: 'ml', k: 'Bình nước' }, { t: '30–120', u: 'psi', k: 'Áp lực tia nước' }, { t: 'IPX7', u: '', k: 'Chống nước' }, { v: 1500, t: '1.500', u: 'mAh', k: 'Pin' }];
+const SPECS = [{ v: 200, t: '200', u: 'ml', k: 'Bình nước' }, { t: '30-120', u: 'psi', k: 'Áp lực tia nước' }, { t: 'IPX7', u: '', k: 'Chống nước' }, { v: 1500, t: '1.500', u: 'mAh', k: 'Pin' }];
 const Product = () => {
   const f = useCurrentFrame();
   const { width, height } = useVideoConfig();
@@ -210,7 +210,7 @@ const Outro = () => {
           <div style={{ fontSize: v ? 58 : 54, fontWeight: 800, letterSpacing: '-0.04em', lineHeight: 1.05 }}>Bán bằng nội dung.<br /><span style={{ color: C.klein }}>Quyết bằng dữ liệu.</span></div>
           <div style={{ textAlign: v ? 'left' : 'right' }}>
             <Label size={20}>Cuộc thi Sinh viên Kinh doanh số 2026</Label>
-            <Label size={20} color={C.mute} style={{ marginTop: 10 }}>01/10 – 05/12/2026 · Học viện Chính sách và Phát triển</Label>
+            <Label size={20} color={C.mute} style={{ marginTop: 10 }}>01/10 đến 05/12/2026 · Học viện Chính sách và Phát triển</Label>
           </div>
         </div>
       </AbsoluteFill>

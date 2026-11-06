@@ -1,7 +1,7 @@
 """Dựng website FEBA từ mã nguồn trong _src.
 
 Chạy:  python _src/build.py
-Kết quả: thư mục "website/" ở cạnh _src — mở website/index.html bằng trình duyệt.
+Kết quả: thư mục "website/" ở cạnh _src · mở website/index.html bằng trình duyệt.
 Mỗi trang là một file HTML tự chứa (đã nhúng sẵn CSS, phông chữ, ảnh, three.js).
 Riêng phim giới thiệu nằm ở website/media/ (chép từ _src/media/).
 
@@ -19,9 +19,9 @@ OUT = os.path.join(ROOT, "website")
 
 PAGES = [
     # file, title, description, nav key, uses 3D, body class
-    ("index.html", "FEBA — Đội thi Kinh doanh số 2026", "FEBA: bốn sinh viên Kinh tế số, Học viện Chính sách và Phát triển, vận hành kênh TIỆN LAB trên TikTok Shop Affiliate. Bán bằng nội dung. Quyết bằng dữ liệu.", "team", False, ""),
-    ("san-pham.html", "Tăm nước B-02 PRO — FEBA", "Tăm nước không dây Magic B-02 PRO: bình 200 ml, 30–120 psi, IPX7, pin 1.500 mAh, 4 đầu tăm xoay 360°. Danh mục sản phẩm đội FEBA đang bán.", "product", True, "has-subnav"),
-    ("chien-dich.html", "Chiến dịch TIỆN LAB — FEBA", "Chiến dịch TIỆN LAB trên TikTok Shop Affiliate: mô hình, khách hàng, năm trụ cột nội dung, nhịp đăng, lộ trình 01/10–05/12/2026 và KPI.", "campaign", False, ""),
+    ("index.html", "FEBA · Đội thi Kinh doanh số 2026", "FEBA: bốn sinh viên Kinh tế số, Học viện Chính sách và Phát triển, vận hành kênh TIỆN LAB trên TikTok Shop Affiliate. Bán bằng nội dung. Quyết bằng dữ liệu.", "team", False, ""),
+    ("san-pham.html", "Tăm nước B-02 PRO · FEBA", "Tăm nước không dây Magic B-02 PRO: bình 200 ml, 30-120 psi, IPX7, pin 1.500 mAh, 4 đầu tăm xoay 360°. Danh mục sản phẩm đội FEBA đang bán.", "product", True, "has-subnav"),
+    ("chien-dich.html", "Chiến dịch TIỆN LAB · FEBA", "Chiến dịch TIỆN LAB trên TikTok Shop Affiliate: mô hình, khách hàng, năm trụ cột nội dung, nhịp đăng, lộ trình 01/10-05/12/2026 và KPI.", "campaign", False, ""),
 ]
 NAV = [("team", "index.html", "Đội thi", "01"), ("product", "san-pham.html", "Sản phẩm", "02"), ("campaign", "chien-dich.html", "Chiến dịch", "03")]
 
@@ -56,10 +56,10 @@ def header(active):
 
 
 def footer():
-    pages = "".join('<li><a href="%s">%s — %s</a></li>' % (href, no, label) for _, href, label, no in NAV)
+    pages = "".join('<li><a href="%s">%s · %s</a></li>' % (href, no, label) for _, href, label, no in NAV)
     return f'''<footer>
   <div class="wrap top">
-    <div><p class="label" style="color:#8fa0ff">FEBA — Số 01 · 2026</p><p style="font-size:clamp(22px,2.2vw,32px);font-weight:800;letter-spacing:-.03em;line-height:1.15;margin-top:18px;max-width:18ch">Bán bằng nội dung.<br>Quyết bằng dữ liệu.</p></div>
+    <div><p class="label" style="color:#8fa0ff">FEBA · Số 01 · 2026</p><p style="font-size:clamp(22px,2.2vw,32px);font-weight:800;letter-spacing:-.03em;line-height:1.15;margin-top:18px;max-width:18ch">Bán bằng nội dung.<br>Quyết bằng dữ liệu.</p></div>
     <div class="cols">
       <div><h4>Trang</h4><ul>{pages}</ul></div>
       <div><h4>Dự án</h4><ul><li><a href="chien-dich.html">TIỆN LAB</a></li><li><a href="san-pham.html">Tăm nước B-02 PRO</a></li><li><a href="san-pham.html#danh-muc">Danh mục</a></li></ul></div>
@@ -67,7 +67,7 @@ def footer():
     </div>
   </div>
   <div class="wrap"><p class="big" aria-hidden="true">FEBA</p></div>
-  <div class="wrap"><div class="bot"><span>Cuộc thi Sinh viên Kinh doanh số 2026 · 01/10 – 05/12/2026</span><span>© 2026 FEBA. Cấu tạo bên trong sản phẩm là hình minh hoạ.</span></div></div>
+  <div class="wrap"><div class="bot"><span>Cuộc thi Sinh viên Kinh doanh số 2026 · 01/10 đến 05/12/2026</span><span>© 2026 FEBA. Cấu tạo bên trong sản phẩm là hình minh hoạ.</span></div></div>
 </footer>'''
 
 

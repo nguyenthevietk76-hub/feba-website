@@ -1,5 +1,5 @@
   /* ================= Detailed internal components (exploded view) =================
-   * Pump module: DC motor → brass pinion → POM gear → crank → con-rod → piston in a clear cylinder
+   * Pump module: simplified housing.
    * → valve head with inlet/outlet barbs. Electronics: main PCB with SMD parts, keypad membrane,
    * USB-C charging board, Li-ion cell with nickel strips and JST leads. Everything is built from
    * primitives / lathes / extruded shapes so it stays crisp at close range.
@@ -70,58 +70,14 @@
     return g;
   }
 
-  /* ---------- PUMP MODULE ---------- */
+  /* ---------- PUMP MODULE (simplified: one housing, clear cylinder, outlet tube) ---------- */
   const gPump = part('pump');
-  const YC = HB + 0.15, ZC = -0.05, XG = 0.165, RC = 0.042, ROD = 0.2;
-  // chassis: base plate + vertical gearbox wall
-  mesh(gPump, rbox(0.66, 0.5, 0.026, 0.008), mHousing, -0.07, HB + 0.018, 0, Math.PI / 2, 0, 0);
-  const wall = mesh(gPump, rbox(0.024, 0.3, 0.44, 0.006), mHousing, 0.125, HB + 0.165, 0);
-  [[HB + 0.03, -0.2], [HB + 0.03, 0.2]].forEach(([y, z]) => screw(gPump, 0.22, y, z));
-  [[-0.36, -0.2], [-0.36, 0.2], [0.18, -0.2], [0.18, 0.2]].forEach(([x, z]) => screw(gPump, x, HB + 0.031, z));
-  // DC motor (130 size): brushed can, end bell, brass bushing, terminals
-  const ZM = ZC + 0.142;
-  mesh(gPump, cyl(0.088, 0.088, 0.27, 64), mCan, -0.19, YC, ZM, 0, 0, Math.PI / 2);
-  [-0.315, -0.065].forEach(x => mesh(gPump, new T.TorusGeometry(0.0885, 0.0028, 8, 64), mSteel, x, YC, ZM, 0, Math.PI / 2, 0));
-  for (let i = 0; i < 4; i++) { const a = i * Math.PI / 2 + 0.4; mesh(gPump, new T.BoxGeometry(0.06, 0.012, 0.006), mBlack, -0.27, YC + Math.sin(a) * 0.0885, ZM + Math.cos(a) * 0.0885, a, 0, 0); }
-  mesh(gPump, lathe([[0, 0], [0.084, 0], [0.086, 0.01], [0.082, 0.045], [0.05, 0.055], [0.022, 0.058], [0, 0.058]], 48), mBlack, -0.325, YC, ZM, 0, 0, Math.PI / 2);
-  mesh(gPump, cyl(0.018, 0.018, 0.02, 24), mBrass, -0.392, YC, ZM, 0, 0, Math.PI / 2);
-  [0.045, -0.045].forEach((dz, i) => {
-    mesh(gPump, new T.BoxGeometry(0.03, 0.022, 0.004), mBrass, -0.395, YC + 0.035, ZM + dz, 0, 0, 0);
-    const w = mesh(gPump, tube([V(-0.405, YC + 0.042, ZM + dz), V(-0.44, YC + 0.06, ZM + dz * 1.4), V(-0.46, HB + 0.05, ZM - 0.06), V(-0.44, HB + 0.03, -0.22)], 0.0075), i ? mWire : mRed);
-    w.castShadow = false;
-  });
-  jst(gPump, -0.44, HB + 0.03, -0.24, Math.PI / 2);
-  mesh(gPump, cyl(0.022, 0.022, 0.02, 24), mBrass, -0.045, YC, ZM, 0, 0, Math.PI / 2);   // front bushing
-  mesh(gPump, cyl(0.006, 0.006, 0.22, 12), mSteel, 0.06, YC, ZM, 0, 0, Math.PI / 2);      // shaft
-  // gear train
-  const pinion = mesh(gPump, gearGeo(10, 0.03, 0.024, 0.026, 0.006), mBrass, XG, YC, ZM);
-  const bigGear = mesh(gPump, gearGeo(38, 0.116, 0.108, 0.022, 0.007, true), mPom, XG, YC, ZC);
-  mesh(gPump, cyl(0.016, 0.016, 0.03, 24), mSteel, XG + 0.01, YC, ZC, 0, 0, Math.PI / 2);   // gear hub
-  const crankPin = mesh(gPump, cyl(0.009, 0.009, 0.04, 16), mSteel, XG + 0.02, YC, ZC, 0, 0, Math.PI / 2);
-  // con-rod (POM) with two eyes
-  const rodShape = new T.Shape(), ra = 0.022, rb2 = 0.018;
-  rodShape.absarc(0, 0, ra, Math.PI, Math.PI * 2, false); rodShape.lineTo(rb2, ROD); rodShape.absarc(0, ROD, rb2, 0, Math.PI, false); rodShape.lineTo(-ra, 0);
-  [[0, ra * 0.45], [ROD, rb2 * 0.45]].forEach(([y, r]) => { const p = new T.Path(); p.absarc(0, y, r, 0, Math.PI * 2, true); rodShape.holes.push(p); });
-  const rodGeo = new T.ExtrudeGeometry(rodShape, { depth: 0.016, bevelEnabled: true, bevelThickness: 0.002, bevelSize: 0.002, bevelSegments: 2, curveSegments: 20 });
-  rodGeo.translate(0, 0, -0.008); rodGeo.rotateY(Math.PI / 2);
-  const rod = mesh(gPump, rodGeo, mPom, XG + 0.03, YC, ZC);
-  // clear pump cylinder + piston + valve head
-  const CY0 = YC + ROD - RC + 0.01, CY1 = HB + 0.47;
-  mesh(gPump, lathe([[0.042, 0], [0.052, 0], [0.052, CY1 - CY0], [0.058, CY1 - CY0], [0.058, CY1 - CY0 + 0.012], [0.042, CY1 - CY0 + 0.012]], 56), mClearPart, XG + 0.03, CY0, ZC);
-  const piston = new T.Group(); gPump.add(piston); piston.position.set(XG + 0.03, 0, ZC);
-  mesh(piston, cyl(0.04, 0.04, 0.045, 40), mPom, 0, 0.0225, 0);
-  mesh(piston, new T.TorusGeometry(0.039, 0.005, 10, 40), mRubber, 0, 0.038, 0, Math.PI / 2, 0, 0);
-  mesh(piston, new T.TorusGeometry(0.039, 0.005, 10, 40), mRubber, 0, 0.012, 0, Math.PI / 2, 0, 0);
-  const VH = CY1 + 0.04;
-  mesh(gPump, rbox(0.15, 0.06, 0.15, 0.012), mHousing, XG + 0.03, VH, ZC, Math.PI / 2, 0, 0);
-  [[0.05, 0.05], [-0.05, 0.05], [0.05, -0.05], [-0.05, -0.05]].forEach(([dx, dz]) => screw(gPump, XG + 0.03 + dx, VH + 0.03, ZC + dz));
-  const barb = [[0, 0], [0.026, 0], [0.026, 0.02], [0.018, 0.022], [0.022, 0.04], [0.015, 0.042], [0.019, 0.06], [0.012, 0.062], [0, 0.062]];
-  mesh(gPump, lathe(barb, 32), mPom, XG + 0.03, VH + 0.03, ZC);                           // outlet → nozzle
-  mesh(gPump, lathe(barb, 32), mPom, XG + 0.03, VH, ZC - 0.075, -Math.PI / 2, 0, 0);       // inlet ← hose
-  const outTube = mesh(gPump, tube([V(XG + 0.03, VH + 0.08, ZC), V(XG + 0.01, VH + 0.13, ZC - 0.01), V(BX + 0.04, HB + 0.63, BZ), V(BX, HB + 0.66, BZ)], 0.017), mSil);
+  const YC = HB + 0.15, ZC = -0.05, XG = 0.165;
+  mesh(gPump, rbox(0.62, 0.26, 0.44, 0.03), mHousing, -0.05, HB + 0.15, 0);
+  mesh(gPump, lathe([[0.042, 0], [0.052, 0], [0.052, 0.16], [0.042, 0.16]], 40), mClearPart, XG + 0.03, HB + 0.28, ZC);
+  mesh(gPump, rbox(0.15, 0.06, 0.15, 0.012), mHousing, XG + 0.03, HB + 0.47, ZC, Math.PI / 2, 0, 0);
+  const outTube = mesh(gPump, tube([V(XG + 0.03, HB + 0.5, ZC), V(XG + 0.01, HB + 0.56, ZC - 0.01), V(BX + 0.04, HB + 0.63, BZ), V(BX, HB + 0.66, BZ)], 0.017), mSil);
   outTube.castShadow = false;
-  // check-valve discs visible through slots
-  mesh(gPump, cyl(0.03, 0.03, 0.006, 32), mRubber, XG + 0.03, VH - 0.034, ZC);
 
   /* ---------- ELECTRONICS ---------- */
   const gPcb = part('pcb'), gBat = part('battery'), gKey = part('keypad'), gUsb = part('usb');
@@ -235,14 +191,4 @@
   const gpts2 = gpts.map(p => p.clone().setY(HB + 0.02).multiply(new T.Vector3(0.985, 1, 0.985)));
   add(gGasket, new T.TubeGeometry(new T.CatmullRomCurve3(gpts2, true), 300, 0.006, 8, true), mSil, false);
 
-  // animated mechanism (called every frame while the exploded view is visible)
-  function animatePump(t) {
-    const th = t * 2.2;
-    bigGear.rotation.x = th; pinion.rotation.x = -th * 3.8;
-    const py = YC + RC * Math.cos(th), pz = ZC + RC * Math.sin(th);
-    crankPin.position.set(XG + 0.02, py, pz);
-    const dz = ZC - pz, dy = Math.sqrt(ROD * ROD - dz * dz);
-    rod.position.set(XG + 0.03, py, pz); rod.rotation.x = Math.atan2(dz, dy);
-    piston.position.y = py + dy - 0.012;
-  }
-  animatePump(0);
+  function animatePump() { }   // mechanism removed to keep the page light
