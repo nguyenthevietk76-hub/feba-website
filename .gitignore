@@ -7,3 +7,5 @@
 !/_src/
 !/website/
 __pycache__/
+node_modules/
+_src/video/out/

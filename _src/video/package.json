@@ -1,0 +1,17 @@
+{
+  "name": "feba-intro",
+  "private": true,
+  "description": "Phim giới thiệu FEBA (20 giây) dựng bằng Remotion. Xuất ra _src/media/.",
+  "scripts": {
+    "studio": "remotion studio src/index.jsx",
+    "render": "remotion render src/index.jsx FebaIntro ../media/feba-intro.mp4 --codec=h264 --crf=22",
+    "render:vertical": "remotion render src/index.jsx FebaIntroVertical ../media/feba-intro-9x16.mp4 --codec=h264 --crf=22",
+    "poster": "remotion still src/index.jsx FebaIntro ../media/feba-intro-poster.jpg --frame=96 --image-format=jpeg --jpeg-quality=82"
+  },
+  "dependencies": {
+    "@remotion/cli": "4.0.536",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "remotion": "4.0.536"
+  }
+}

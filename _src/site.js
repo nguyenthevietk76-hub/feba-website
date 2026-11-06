@@ -29,7 +29,7 @@
     const step = now => { const k = clamp((now - t0) / dur, 0, 1); el.textContent = Math.round(to * (1 - Math.pow(1 - k, 4))).toLocaleString('vi-VN'); if (k < 1) requestAnimationFrame(step); };
     el.textContent = '0'; requestAnimationFrame(step);
   };
-  const targets = $$('.rv, .rv-mask');
+  const targets = $$('.rv, .rv-mask, .rv-line, .rv-rule');
   if ('IntersectionObserver' in window) {
     const io = new IntersectionObserver(es => es.forEach(e => {
       if (!e.isIntersecting) return;
@@ -60,6 +60,24 @@
   addEventListener('scroll', onScroll, { passive: true });
   addEventListener('resize', fx);
   onScroll();
+
+  /* masthead letters rise in once the page is painted */
+  const heroEl = $('.t-hero');
+  if (heroEl) requestAnimationFrame(() => setTimeout(() => heroEl.classList.add('on'), 120));
+
+  /* intro film: load + play only while on screen (muted, loops) */
+  $$('[data-film]').forEach(box => {
+    const v = $('video', box), btn = $('.play', box);
+    let wanted = true;
+    const load = () => { if (!v.src && v.dataset.src) { v.src = v.dataset.src; v.load(); } };
+    v.addEventListener('error', () => box.classList.add('missing'));
+    if (btn) btn.addEventListener('click', () => { load(); if (v.paused) { wanted = true; v.play().catch(() => {}); } else { wanted = false; v.pause(); } });
+    v.addEventListener('play', () => box.classList.add('playing'));
+    v.addEventListener('pause', () => box.classList.remove('playing'));
+    if ('IntersectionObserver' in window) new IntersectionObserver(es => es.forEach(e => {
+      if (e.isIntersecting) { load(); if (wanted && !reduce) v.play().catch(() => {}); } else v.pause();
+    }), { threshold: 0.35 }).observe(box);
+  });
 
   /* inertial smooth scrolling for mouse wheels (touch & keyboard stay native) */
   const html = document.documentElement;

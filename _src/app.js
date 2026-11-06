@@ -55,7 +55,7 @@
   R.shadowMap.type = T.VSMShadowMap;
 
   const scene = new T.Scene();
-  const BG_LIGHT = new T.Color('#eef0f2'), BG_DARK = new T.Color('#0a1016');
+  const BG_LIGHT = new T.Color('#f3f1ec'), BG_DARK = new T.Color('#1f3bff');
   scene.background = BG_LIGHT.clone();
   const cam = new T.PerspectiveCamera(26, 1, 0.1, 120);
 

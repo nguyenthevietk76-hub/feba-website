@@ -1,43 +1,51 @@
 # FEBA — Website đội thi
 
-Website của đội **FEBA**, Cuộc thi Sinh viên Kinh doanh số 2026 (Học viện Chính sách và Phát triển), dự án **TIỆN LAB** · TikTok Shop Affiliate.
+Website của đội **FEBA**, Cuộc thi Sinh viên Kinh doanh số 2026 (Học viện Chính sách và Phát triển), kênh **TIỆN LAB** trên TikTok Shop Affiliate.
 
 **Xem trực tuyến:** https://nguyenthevietk76-hub.github.io/feba-website/
+
+Phong cách Editorial Swiss: nền kem `#F3F1EC`, chữ đen mực `#111111`, nhấn xanh Klein `#1F3BFF`, phông Open Sans.
 
 ## Các trang
 
 | Trang | File | Nội dung |
 |---|---|---|
-| Trang chủ | `website/index.html` | Mô hình 3D xoay, giới thiệu, lối vào các trang, TIỆN LAB |
-| Sản phẩm | `website/san-pham.html` | Tăm nước B-02 PRO: 3D cuộn tới đâu hiện tới đó, tách lớp, cận cảnh cụm bơm & bo mạch, thông số |
-| Đội thi | `website/doi-thi.html` | Bốn thành viên, vai trò, nguyên tắc làm việc |
-| Thành tích | `website/thanh-tich.html` | Mục tiêu đến 05/12/2026, giải thưởng |
+| 01 Đội thi | `website/index.html` | Giới thiệu đội, phim 20 giây, những con số, bản đồ năng lực, 4 thành viên, vòng vận hành |
+| 02 Sản phẩm | `website/san-pham.html` | Tăm nước B-02 PRO 3D cuộn tới đâu hiện tới đó (tách lớp, cụm bơm, bo mạch), thông số, danh mục đội bán |
+| 03 Chiến dịch | `website/chien-dich.html` | Mô hình Affiliate, nguyên tắc, khách hàng, 5 trụ cột nội dung, nhịp đăng, lộ trình, KPI, phân vai |
 
-Mỗi trang là một file HTML tự chứa (đã nhúng phông chữ, ảnh, three.js), mở trực tiếp bằng trình duyệt là chạy, không cần mạng.
+Mỗi trang là một file HTML tự chứa (phông chữ, ảnh, three.js đã nhúng). Riêng phim giới thiệu nằm ở `website/media/`.
 
 ## Sửa nội dung
 
-Mã nguồn nằm trong `_src/`:
+- `_src/pages/*.html` — chữ và bố cục từng trang (ảnh viết dạng `@img:ten-anh.jpg`, lấy từ `_src/img/`)
+- `_src/site.css` — giao diện chung · `_src/site.js` — cuộn mượt, hiệu ứng, phim
+- `_src/app.js`, `_src/parts.js` — mô hình 3D và linh kiện bên trong
 
-- `_src/pages/*.html` — chữ và bố cục từng trang
-- `_src/site.css` — giao diện chung (phông Open Sans, màu, khoảng cách)
-- `_src/site.js` — cuộn mượt, hiệu ứng hiện dần, chuyển trang
-- `_src/app.js` — mô hình 3D và kịch bản cuộn; `_src/parts.js` — linh kiện bên trong
-
-Sửa xong thì dựng lại website:
+Dựng lại website:
 
 ```bash
 python _src/build.py
 ```
 
-## Cần bổ sung
+## Phim giới thiệu (Remotion)
 
-- Ảnh chân dung và họ tên các thành viên còn ghi `[Họ và tên]` (trang Đội thi)
-- Ảnh và thông tin giải thưởng còn ghi `[Tên giải thưởng]`, `[Năm]` (trang Thành tích)
+Dự án ở `_src/video/`. Dựng lại phim (cần Node.js):
+
+```bash
+cd _src/video
+npm install
+npm run render
+npm run render:vertical
+npm run poster
+```
+
+Phim xuất ra `_src/media/`, rồi chạy lại `python _src/build.py` để chép sang `website/media/`.
 
 ## Giấy phép bên thứ ba
 
 - [three.js](https://threejs.org) r149 — MIT
+- [Remotion](https://www.remotion.dev) — giấy phép Remotion (miễn phí cho cá nhân và nhóm nhỏ)
 - Phông [Open Sans](https://fonts.google.com/specimen/Open+Sans) — SIL Open Font License 1.1
 
-Cấu tạo bên trong máy trên trang Sản phẩm là hình minh hoạ.
+Cấu tạo bên trong máy trên trang Sản phẩm và hình vẽ các sản phẩm mở rộng là hình minh hoạ.
