@@ -3,9 +3,8 @@
 /*
 !/.gitignore
 !/README.md
-!/index.html
 !/_src/
-!/website/
+!/docs/
 __pycache__/
 node_modules/
 _src/video/out/

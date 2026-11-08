@@ -16,7 +16,9 @@
     const open = body.classList.toggle('menu-open');
     menuBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
   });
-  $$('.navlinks a').forEach(a => a.addEventListener('click', () => body.classList.remove('menu-open')));
+  const closeMenu = () => { body.classList.remove('menu-open'); if (menuBtn) menuBtn.setAttribute('aria-expanded', 'false'); };
+  $$('.navlinks a').forEach(a => a.addEventListener('click', closeMenu));
+  addEventListener('keydown', e => { if (e.key === 'Escape') closeMenu(); });
 
   /* ---------- number counters ---------- */
   const fmt = n => n.toLocaleString('vi-VN');
@@ -195,10 +197,18 @@
       e.preventDefault();
       window.__smoothTo(el.getBoundingClientRect().top + scrollY - 64);
       history.replaceState(null, '', href);
-    } else if (/\.html(#.*)?$/.test(href) && location.protocol !== 'data:') {
-      e.preventDefault();
+    } else if (a.origin === location.origin && !/\.(mp4|jpe?g|png|webp|pdf)$/i.test(a.pathname)) {
+      if (a.pathname === location.pathname) {          // same page, e.g. "/#doi-ngu" while on "/"
+        const el = a.hash && document.getElementById(a.hash.slice(1));
+        if (!el) return;
+        e.preventDefault();
+        window.__smoothTo(el.getBoundingClientRect().top + scrollY - 64);
+        history.replaceState(null, '', a.hash);
+        return;
+      }
+      e.preventDefault();                               // another page: fade out first
       body.classList.add('leaving');
-      setTimeout(() => { location.href = href; }, reduce ? 0 : 360);
+      setTimeout(() => { location.href = a.href; }, reduce ? 0 : 360);
     }
   });
   addEventListener('pageshow', () => body.classList.remove('leaving'));

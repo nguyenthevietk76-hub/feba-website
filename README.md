@@ -2,19 +2,20 @@
 
 Website của đội **FEBA**, Cuộc thi Sinh viên Kinh doanh số 2026 (Học viện Chính sách và Phát triển), kênh **TIỆN LAB** trên TikTok Shop Affiliate.
 
-**Xem trực tuyến:** https://nguyenthevietk76-hub.github.io/feba-website/
+**Xem trực tuyến:** https://feba.id.vn
 
-Phong cách Editorial Swiss: nền kem `#F3F1EC`, chữ đen mực `#111111`, nhấn xanh Klein `#1F3BFF`, phông Open Sans.
+Nền kem `#F3F1EC`, chữ đen mực `#111111`, nhấn xanh Klein `#1F3BFF`, phông Open Sans. Kể chuyện bằng hình, hiệu ứng khi cuộn.
 
 ## Các trang
 
-| Trang | File | Nội dung |
+| Trang | Địa chỉ | File dựng ra |
 |---|---|---|
-| 01 Đội thi | `website/index.html` | Giới thiệu đội, phim 20 giây, những con số, bản đồ năng lực, 4 thành viên, vòng vận hành |
-| 02 Sản phẩm | `website/san-pham.html` | Tăm nước B-02 PRO 3D cuộn tới đâu hiện tới đó (tách lớp, cụm bơm, bo mạch), thông số, danh mục đội bán |
-| 03 Chiến dịch | `website/chien-dich.html` | Mô hình Affiliate, nguyên tắc, khách hàng, 5 trụ cột nội dung, nhịp đăng, lộ trình, KPI, phân vai |
+| Đội thi | https://feba.id.vn | `docs/index.html` |
+| Sản phẩm (mô hình 3D) | https://feba.id.vn/san-pham | `docs/san-pham.html` |
+| Chiến dịch TIỆN LAB | https://feba.id.vn/chien-dich | `docs/chien-dich.html` |
 
-Mỗi trang là một file HTML tự chứa (phông chữ, ảnh, three.js đã nhúng). Riêng phim giới thiệu nằm ở `website/media/`.
+GitHub Pages phục vụ thư mục `docs/` (nhánh `main`). Ảnh, phông chữ, CSS, JS nằm riêng trong `docs/assets/` để trình duyệt lưu đệm.
+Địa chỉ cũ dạng `/website/...` tự chuyển về địa chỉ mới.
 
 ## Sửa nội dung
 
@@ -40,7 +41,7 @@ npm run render:vertical
 npm run poster
 ```
 
-Phim xuất ra `_src/media/`, rồi chạy lại `python _src/build.py` để chép sang `website/media/`.
+Phim xuất ra `_src/media/`, rồi chạy lại `python _src/build.py` để chép sang `docs/media/`.
 
 ## Giấy phép bên thứ ba
 
