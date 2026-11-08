@@ -20,10 +20,11 @@ OUT = os.path.join(ROOT, "website")
 PAGES = [
     # file, title, description, nav key, uses 3D, body class
     ("index.html", "FEBA · Đội thi Kinh doanh số 2026", "FEBA: bốn sinh viên Kinh tế số, Học viện Chính sách và Phát triển, vận hành kênh TIỆN LAB trên TikTok Shop Affiliate. Bán bằng nội dung. Quyết bằng dữ liệu.", "team", False, ""),
-    ("san-pham.html", "Tăm nước B-02 PRO · FEBA", "Tăm nước không dây Magic B-02 PRO: bình 200 ml, 30-120 psi, IPX7, pin 1.500 mAh, 4 đầu tăm xoay 360°. Danh mục sản phẩm đội FEBA đang bán.", "product", True, "has-subnav"),
-    ("chien-dich.html", "Chiến dịch TIỆN LAB · FEBA", "Chiến dịch TIỆN LAB trên TikTok Shop Affiliate: mô hình, khách hàng, năm trụ cột nội dung, nhịp đăng, lộ trình 01/10-05/12/2026 và KPI.", "campaign", False, ""),
+    ("san-pham.html", "Tăm nước B-02 PRO · FEBA", "Tăm nước không dây Magic B-02 PRO: bình 200 ml, 30-120 psi, IPX7, pin 1.500 mAh, 4 đầu tăm xoay 360°. Cuộn để mở từng lớp bằng mô hình 3D.", "product", True, ""),
+    ("chien-dich.html", "Chiến dịch TIỆN LAB · FEBA", "Chiến dịch TIỆN LAB trên TikTok Shop Affiliate: quy trình, khách hàng, năm trụ cột nội dung, nhịp đăng, lộ trình 01/10 đến 05/12/2026 và mục tiêu.", "campaign", False, ""),
 ]
-NAV = [("team", "index.html", "Đội thi", "01"), ("product", "san-pham.html", "Sản phẩm", "02"), ("campaign", "chien-dich.html", "Chiến dịch", "03")]
+NAV = [("team", "index.html", "Đội thi"), ("product", "san-pham.html", "Sản phẩm"), ("campaign", "chien-dich.html", "Chiến dịch")]
+CTA = {"team": ("san-pham.html", "Mô hình 3D", "btn-ink"), "product": ("chien-dich.html", "Cách đội bán", "btn-blue"), "campaign": ("#lo-trinh", "Lộ trình", "btn-ink")}
 
 
 def read(name):
@@ -38,36 +39,29 @@ def write(path, text):
 
 
 def header(active):
-    links = "\n".join(
-        '      <a href="%s"%s><sup>%s</sup>%s</a>' % (href, ' aria-current="page"' if key == active else "", no, label)
-        for key, href, label, no in NAV)
-    return f'''<div class="guides" aria-hidden="true"><div class="wrap">{"<i></i>" * 12}</div></div>
-<header class="hdr" id="hdr">
+    links = "\n".join('      <a href="%s"%s>%s</a>' % (href, ' aria-current="page"' if key == active else "", label) for key, href, label in NAV)
+    href, label, cls = CTA[active]
+    return f'''<header class="hdr" id="hdr">
   <nav aria-label="Điều hướng chính">
-    <a class="brand" href="index.html"><span class="logo">FEBA</span><span class="issue">Số 01 · 2026</span></a>
+    <a class="brand" href="index.html">FEBA<span>.</span></a>
     <div class="navlinks">
 {links}
     </div>
-    <p class="meta">Cuộc thi Sinh viên<br>Kinh doanh số 2026</p>
+    <a class="btn {cls}" href="{href}">{label}</a>
     <button class="menu-btn" aria-label="Mở menu" aria-expanded="false"><i></i></button>
   </nav>
-  <div class="hdr-progress" id="prog"></div>
+  <div class="prog" id="prog"></div>
 </header>'''
 
 
 def footer():
-    pages = "".join('<li><a href="%s">%s · %s</a></li>' % (href, no, label) for _, href, label, no in NAV)
+    links = "".join('<a href="%s">%s</a>' % (href, label) for _, href, label in NAV)
     return f'''<footer>
-  <div class="wrap top">
-    <div><p class="label" style="color:#8fa0ff">FEBA · Số 01 · 2026</p><p style="font-size:clamp(22px,2.2vw,32px);font-weight:800;letter-spacing:-.03em;line-height:1.15;margin-top:18px;max-width:18ch">Bán bằng nội dung.<br>Quyết bằng dữ liệu.</p></div>
-    <div class="cols">
-      <div><h4>Trang</h4><ul>{pages}</ul></div>
-      <div><h4>Dự án</h4><ul><li><a href="chien-dich.html">TIỆN LAB</a></li><li><a href="san-pham.html">Tăm nước B-02 PRO</a></li><li><a href="san-pham.html#danh-muc">Danh mục</a></li></ul></div>
-      <div><h4>Đội thi</h4><ul><li>Học viện Chính sách<br>và Phát triển</li><li>Khoa Kinh tế số</li></ul></div>
-    </div>
+  <div class="wrap">
+    <span><b>FEBA</b> · Cuộc thi Sinh viên Kinh doanh số 2026 · Học viện Chính sách và Phát triển</span>
+    <nav aria-label="Trang">{links}</nav>
+    <span>Cấu tạo bên trong sản phẩm là hình minh hoạ.</span>
   </div>
-  <div class="wrap"><p class="big" aria-hidden="true">FEBA</p></div>
-  <div class="wrap"><div class="bot"><span>Cuộc thi Sinh viên Kinh doanh số 2026 · 01/10 đến 05/12/2026</span><span>© 2026 FEBA. Cấu tạo bên trong sản phẩm là hình minh hoạ.</span></div></div>
 </footer>'''
 
 
@@ -80,15 +74,20 @@ def build():
     site_css = read("site.css").replace("/*@@FONTS@@*/", css)
     inline_js = lambda code: "<script>" + code.replace("</script", "<\\/script") + "</script>"
 
+    cache = {}
+
     def img_uri(m):
-        with open(os.path.join(HERE, "img", m.group(1)), "rb") as f:
-            return "data:image/jpeg;base64," + base64.b64encode(f.read()).decode()
+        name = m.group(1)
+        if name not in cache:
+            with open(os.path.join(HERE, "img", name), "rb") as f:
+                cache[name] = "data:%s;base64,%s" % ({"jpg": "image/jpeg", "png": "image/png", "webp": "image/webp"}[name.rsplit(".", 1)[1]], base64.b64encode(f.read()).decode())
+        return cache[name]
 
     for fname, title, desc, nav, is3d, body_cls in PAGES:
         scripts = inline_js(read("site.js"))
         if is3d:
             scripts = inline_js(read("three.min.js")) + "\n" + scripts + "\n" + inline_js(read("app.js").replace("/*@@PARTS@@*/", read("parts.js")))
-        body = re.sub(r"@img:([\w.-]+\.jpg)", img_uri, read(os.path.join("pages", fname)))
+        body = re.sub(r"@img:([\w.-]+\.(?:jpg|png|webp))", img_uri, read(os.path.join("pages", fname)))
         html = f'''<!DOCTYPE html>
 <html lang="vi">
 <head>

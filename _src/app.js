@@ -21,6 +21,7 @@
   const panels = $$('.panel', story).map(el => ({ el, a: +el.dataset.a, b: +el.dataset.b }));
   const heroFoot = $('#heroFoot'), rail = $('#rail'), railBtns = $$('#rail button');
   const subLinks = $$('.subnav [data-ch]');
+  const stepBtns = $$('[data-at]', story), storyBar = $('[data-story-bar]', story), storyHead = $('.story-head', story);
   const mlEl = $('#ml'), mlBar = $('#mlBar'), modes = $$('#modes .mode');
   let pTarget = 0, pSmooth = 0;
 
@@ -558,28 +559,20 @@
   // az: camera azimuth (0 = front), el: elevation, d: distance, ty/tx: look target, sx/sy: screen shift,
   // e: explode, w: water, j: jet, dr: drops, hd: heads, led: LED sequence, dk: dark stage, co: callouts
   const KEYS = [
-    { p: 0.00, az: 0.42, el: 0.07, d: 12.6, ty: 2.25, tx: 0, tz: 0, sx: 0.19, sy: 0.02, sp: 0, e: 0, w: 0.55, j: 0, dr: 0, hd: 0, led: 0, dk: 0, co: 0 },
-    { p: 0.06, az: 0.30, el: 0.08, d: 12.2, ty: 2.25 },
-    // controls on the back
-    { p: 0.16, az: 3.33, el: 0.1, d: 13.4, ty: 2.32, sx: 0.19, led: 0 },
-    { p: 0.25, az: 2.98, el: 0.08, d: 13.0, led: 3.2 },
-    // exploded overview with labels
-    { p: 0.32, az: 2.08, el: 0.2, d: 21.5, ty: 3.05, tz: -0.55, sx: 0, sy: 0.12, e: 1, led: 0, co: 0 },
-    { p: 0.345, co: 1 },
-    { p: 0.41, az: 1.88, co: 1, d: 21.0 },
-    { p: 0.43, co: 0 },
-    // close-up: electronics (PCB, battery, USB-C board)
-    { p: 0.48, az: 2.33, el: 0.12, d: 5.9, tx: -0.05, ty: 1.4, tz: -1.3, sx: -0.16, sy: 0, sp: 1 },
-    { p: 0.52, az: 2.46, el: 0.16, d: 5.6 },
-    // reassemble → water
-    { p: 0.58, az: 0.33, el: 0.1, d: 13.4, tx: 0, ty: 2.3, tz: 0, sx: 0.2, sy: 0, sp: 0, e: 0, w: 0.02 },
-    { p: 0.66, az: 0.23, w: 1, d: 13.0 },
-    { p: 0.71, az: 0.50, el: 0.06, d: 10.5, ty: 3.85, sx: 0.2, sy: 0.12, dk: 1, j: 0 },
-    { p: 0.79, az: 0.60, j: 1, d: 10.8 },
-    { p: 0.825, az: -0.32, el: 0.14, d: 13.4, ty: 2.35, sx: -0.2, sy: 0, j: 0, dr: 0 },
-    { p: 0.9, az: -0.47, dr: 1, dk: 1, d: 12.8 },
-    { p: 0.955, az: 0.08, el: 0.12, d: 16.4, ty: 1.75, tx: 2.05, sx: 0, sy: 0.155, dr: 0, dk: 0, hd: 1 },
-    { p: 1.0, az: 0.04, hd: 1 },
+    // 01 assembled, turning slowly
+    { p: 0.00, az: 0.42, el: 0.07, d: 12.6, ty: 2.25, tx: 0, tz: 0, sx: 0.2, sy: 0.02, sp: 0, e: 0, w: 0.55, j: 0, dr: 0, hd: 0, led: 0, dk: 0, co: 0 },
+    { p: 0.12, az: 1.15, el: 0.1, d: 12.8 },
+    // 02 exploded, labels on
+    { p: 0.30, az: 2.08, el: 0.2, d: 21.5, ty: 3.05, tz: -0.55, sx: 0, sy: 0.1, e: 1, co: 0 },
+    { p: 0.36, co: 1 },
+    { p: 0.52, az: 1.88, d: 21.0, co: 1 },
+    { p: 0.57, co: 0 },
+    // 03 electronics close-up
+    { p: 0.68, az: 2.33, el: 0.12, d: 5.9, tx: -0.05, ty: 1.4, tz: -1.3, sx: -0.16, sy: 0, sp: 1 },
+    { p: 0.78, az: 2.46, el: 0.16, d: 5.6 },
+    // 04 back together, tank fills
+    { p: 0.92, az: 0.33, el: 0.1, d: 13.4, tx: 0, ty: 2.3, tz: 0, sx: 0.2, sy: 0, sp: 0, e: 0, w: 1 },
+    { p: 1.00, az: 0.18, w: 1 },
   ];
   if (MODE === 'hero') {
     KEYS.length = 0;
@@ -751,9 +744,10 @@
     const hf = Math.min(1 - sstep(0.03, 0.06, p), intro);
     if (heroFoot) { heroFoot.style.opacity = hf.toFixed(3); heroFoot.style.visibility = hf > 0.01 ? 'visible' : 'hidden'; }
     if (rail) rail.style.opacity = sstep(0.06, 0.1, p) + '';
-    const chapters = [0, 0.1, 0.285, 0.445, 0.55, 0.685, 0.805, 0.925];
-    let act = 0; chapters.forEach((c, i) => { if (p >= c) act = i; });
-    if (act !== lastActive) { railBtns.forEach((b, i) => b.classList.toggle('on', i === act)); subLinks.forEach(l => l.classList.toggle('on', l.dataset.ch.split(',').map(Number).includes(act))); lastActive = act; }
+    let act = 0; stepBtns.forEach((b, i) => { if (p >= +b.dataset.at) act = i; });
+    if (act !== lastActive) { stepBtns.forEach((b, i) => b.classList.toggle('on', i === act)); lastActive = act; }
+    if (storyBar) storyBar.style.transform = 'scaleX(' + p.toFixed(4) + ')';
+    if (storyHead) storyHead.style.opacity = (1 - (narrow ? 0 : s.co)).toFixed(3);
     if (mlEl) { const ml = Math.round(clamp((s.w - 0.02) / 0.98, 0, 1) * 200); mlEl.textContent = ml; mlBar.style.transform = `scaleX(${(ml / 200).toFixed(3)})`; }
 
     // callouts

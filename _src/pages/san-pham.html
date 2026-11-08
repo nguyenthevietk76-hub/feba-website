@@ -1,220 +1,168 @@
-<nav class="subnav" aria-label="Điều hướng sản phẩm">
-  <div class="in">
-    <a class="name" href="#top" data-go="0">Tăm nước B-02 <span>PRO</span></a>
-    <div class="links">
-      <a href="#top" data-go="0" data-ch="0,1">Tổng quan</a>
-      <a href="#top" data-go="0.37" data-ch="2,3">Cấu tạo</a>
-      <a href="#top" data-go="0.62" data-ch="4,5,6">Hiệu năng</a>
-      <a href="#top" data-go="0.99" data-ch="7">Đầu tăm</a>
-      <a href="#thong-so">Thông số</a>
-      <a href="#danh-muc">Danh mục</a>
-    </div>
-    <a class="btn btn-klein" href="chien-dich.html">Chiến dịch <i>→</i></a>
-  </div>
-</nav>
-
 <main>
-<section class="story" data-mode="story" id="top" aria-label="Khám phá tăm nước B-02 PRO">
+<!-- ============ 1 · MỞ ĐẦU: tên khổng lồ phía sau, máy trồi lên, thông số nối vào ============ -->
+<section class="hero p-hero" data-in data-hero aria-label="Tăm nước B-02 PRO">
+  <div class="big rv" aria-hidden="true">B-02 PRO</div>
+  <div class="orbit" aria-hidden="true"></div>
+  <div class="disc" aria-hidden="true"></div>
+  <!-- one 1200×860 stage: product, connector lines and chips share the same coordinates, so lines always meet the chips -->
+  <div class="p-stage" data-par="-0.10">
+    <div class="prod"><div class="rv"><img src="@img:product-white.jpg" alt="Tăm nước Magic B-02 PRO"></div></div>
+    <svg class="lines draw" width="1200" height="860" viewBox="0 0 1200 860" aria-hidden="true">
+      <path d="M282 150 H 566" style="--d:6"/>
+      <path d="M918 335 H 703" style="--d:7"/>
+      <path d="M282 520 H 507" style="--d:8"/>
+      <path d="M918 705 H 699" style="--d:9"/>
+      <g class="dots"><circle cx="566" cy="150" r="6"/><circle cx="703" cy="335" r="6"/><circle cx="507" cy="520" r="6"/><circle cx="699" cy="705" r="6"/></g>
+    </svg>
+    <div class="spec-chip a rv l" style="--d:6"><b>360°</b><span>Đầu tăm xoay</span></div>
+    <div class="spec-chip b rv r" style="--d:7"><b>3 chế độ</b><span>Một nút bấm</span></div>
+    <div class="spec-chip c rv l" style="--d:8"><b>200 ml</b><span>Bình nước rời</span></div>
+    <div class="spec-chip d rv r" style="--d:9"><b>1.500 mAh</b><span>Pin sạc</span></div>
+  </div>
+  <p class="sub rv" style="--d:10">Tăm nước không dây. Nhỏ gọn. Bốn đầu tăm.</p>
+  <a class="cue" href="#ben-trong" aria-label="Cuộn xuống"></a>
+</section>
+
+<!-- ============ 2 · BÊN TRONG: mô hình 3D, cuộn tới đâu tách lớp tới đó ============ -->
+<section class="story" data-mode="story" id="ben-trong" aria-label="Mô hình 3D tách lớp">
   <div class="stage" id="stage">
-    <canvas id="gl" role="img" aria-label="Mô hình 3D tăm nước B-02 PRO, cuộn để khám phá, kéo để xoay"></canvas>
+    <canvas id="gl" role="img" aria-label="Mô hình 3D tăm nước B-02 PRO, cuộn để tách lớp, kéo để xoay"></canvas>
     <div class="fallback"><img src="@img:product-white.jpg" alt="Tăm nước B-02 PRO"></div>
-
     <div class="layer">
-      <div class="panel left hero" data-a="-1" data-b="0.07">
-        <p class="kicker">Sản phẩm chủ lực · TIỆN LAB</p>
-        <h1>B-02<br><span>PRO</span></h1>
-        <p class="tag">Tăm nước không dây.<br>Nhỏ gọn. Bốn đầu tăm.</p>
-        <div class="ctas">
-          <a class="btn btn-ink" href="#thong-so">Thông số <i>↓</i></a>
-          <a class="ulink" href="#danh-muc">Cả danh mục</a>
-        </div>
+      <div class="story-head">
+        <span class="kicker">Bên trong</span>
+        <h2 class="h2">Cuộn để<br>mở từng lớp.</h2>
+        <p>Mô hình 3D dựng bằng code. Kéo để xoay 360°.</p>
       </div>
-
-
-      <div class="panel left" data-a="0.13" data-b="0.27">
-        <span class="label">01 · Điều khiển</span>
-        <h2 class="h2">Một chạm.<br>Ba chế độ.</h2>
-        <div class="modes" id="modes">
-          <div class="mode"><span class="led"></span><span class="n">01</span><b>Nhẹ</b></div>
-          <div class="mode"><span class="led"></span><span class="n">02</span><b>Tiêu chuẩn</b></div>
-          <div class="mode"><span class="led"></span><span class="n">03</span><b>Xung</b></div>
-        </div>
-      </div>
-
-      <div class="panel top compact" data-a="0.3" data-b="0.43">
-        <span class="label">02 · Cấu tạo</span>
-        <h2 class="h2">Mở từng lớp. Đọc từng thông số.</h2>
-      </div>
-
-
-      <div class="panel right" data-a="0.455" data-b="0.535">
-        <span class="label">03 · Điện tử</span>
-        <h2 class="h2">Pin 1.500 mAh.<br>Sạc USB-C.</h2>
-        <p class="lead">Bo mạch điều khiển ba chế độ và ba đèn báo. Pin dùng khoảng 20 ngày mỗi lần sạc.</p>
-        <div class="chips"><span class="chip">3 chế độ</span><span class="chip">~20 ngày / lần sạc</span></div>
-      </div>
-
-      <div class="panel left" data-a="0.565" data-b="0.67">
-        <span class="label">04 · Bình nước</span>
-        <div class="big-num"><span id="ml">0</span><small>ml</small></div>
-        <div class="meter"><i id="mlBar"></i></div>
-        <p class="lead">Vạch chia in rõ trên thân bình. Rửa trực tiếp dưới vòi nước.</p>
-      </div>
-
-      <div class="panel left" data-a="0.7" data-b="0.79">
-        <span class="label">05 · Áp lực tia nước</span>
-        <div class="big-num grad">30-120<small>psi</small></div>
-        <p class="lead">1.400-1.800 xung mỗi phút.</p>
-      </div>
-
-      <div class="panel right" data-a="0.81" data-b="0.9">
-        <span class="label">06 · Chống nước</span>
-        <h2 class="h2">IPX7.<br>Không ngại nước.</h2>
-        <p class="lead">Thân máy kín nước hoàn toàn.</p>
-      </div>
-
-      <div class="panel top compact" data-a="0.935" data-b="2">
-        <span class="label">07 · Đầu tăm</span>
-        <h2 class="h2">Bốn đầu tăm. Xoay 360°.</h2>
-      </div>
-
       <div class="co" id="co0"><span class="ln"></span><span class="dot"></span><div class="lb"><b>Đầu tăm xoay 360°</b><span>4 đầu: tiêu chuẩn, nướu, niềng răng, cạo lưỡi</span></div></div>
-      <div class="co" id="co1"><span class="ln"></span><span class="dot"></span><div class="lb"><b>30-120 psi</b><span>1.400-1.800 xung mỗi phút</span></div></div>
-      <div class="co" id="co2"><span class="ln"></span><span class="dot"></span><div class="lb"><b>Chống nước IPX7</b><span>Thân máy kín nước hoàn toàn</span></div></div>
+      <div class="co" id="co1"><span class="ln"></span><span class="dot"></span><div class="lb"><b>Cụm bơm 30-120 psi</b><span>1.400-1.800 xung mỗi phút</span></div></div>
+      <div class="co" id="co2"><span class="ln"></span><span class="dot"></span><div class="lb"><b>Gioăng kín nước IPX7</b><span>Thân máy kín nước hoàn toàn</span></div></div>
       <div class="co" id="co3"><span class="ln"></span><span class="dot"></span><div class="lb"><b>Bình nước 200 ml</b><span>Rửa trực tiếp dưới vòi nước</span></div></div>
-      <div class="co" id="co4"><span class="ln"></span><span class="dot"></span><div class="lb"><b>3 chế độ</b><span>Nhẹ, tiêu chuẩn và xung</span></div></div>
+      <div class="co" id="co4"><span class="ln"></span><span class="dot"></span><div class="lb"><b>Nút một chạm, 3 chế độ</b><span>Nhẹ, tiêu chuẩn và xung</span></div></div>
       <div class="co" id="co5"><span class="ln"></span><span class="dot"></span><div class="lb"><b>Pin 1.500 mAh</b><span>Khoảng 20 ngày mỗi lần sạc</span></div></div>
-
-      <div class="hl" id="hl0">Tiêu chuẩn<span>Làm sạch kẽ răng</span></div>
-      <div class="hl" id="hl1">Chăm sóc nướu<span>Đầu mềm</span></div>
-      <div class="hl" id="hl2">Niềng răng<span>Đầu lông chải</span></div>
-      <div class="hl" id="hl3">Cạo lưỡi<span>Vòng cạo mảnh</span></div>
     </div>
-
-    <div class="hero-foot" id="heroFoot"><div class="cue" aria-hidden="true">Cuộn để mở<i></i></div></div>
-    <div class="drag-hint" aria-hidden="true">Kéo để xoay 360°</div>
-    <nav class="rail" id="rail" aria-label="Các chương sản phẩm">
-      <button data-go="0.0"><span>Tổng quan</span><i></i></button>
-      <button data-go="0.2"><span>Điều khiển</span><i></i></button>
-      <button data-go="0.37"><span>Cấu tạo</span><i></i></button>
-      <button data-go="0.5"><span>Điện tử</span><i></i></button>
-      <button data-go="0.62"><span>Bình nước</span><i></i></button>
-      <button data-go="0.75"><span>Tia nước</span><i></i></button>
-      <button data-go="0.86"><span>IPX7</span><i></i></button>
-      <button data-go="0.99"><span>Đầu tăm</span><i></i></button>
+    <nav class="steps-bar" aria-label="Các bước xem mô hình">
+      <button data-go="0" data-at="0"><b>01</b>Nguyên khối</button>
+      <button data-go="0.42" data-at="0.24"><b>02</b>Tách lớp</button>
+      <button data-go="0.72" data-at="0.62"><b>03</b>Pin và bo mạch</button>
+      <button data-go="1" data-at="0.86"><b>04</b>Bình 200 ml</button>
     </nav>
+    <div class="drag-hint" aria-hidden="true">Kéo để xoay</div>
+    <div class="story-prog" aria-hidden="true"><i data-story-bar></i></div>
     <div class="loader" id="loader"><i></i></div>
   </div>
 </section>
 
-<section class="sec tight" aria-label="Thông số nhanh">
+<!-- ============ 3 · ÁP LỰC: tia nước + đồng hồ, chọn chế độ ============ -->
+<section class="sec jet" data-in data-jet data-m="1" aria-label="Áp lực tia nước">
   <div class="wrap">
-    <div class="quick rv-rule">
-      <div class="rv"><div class="v"><span data-count="200">200</span><small>ml</small></div><div class="k">Dung tích bình nước</div></div>
-      <div class="rv" style="--d:1"><div class="v">30-120<small>psi</small></div><div class="k">Dải áp lực tia nước</div></div>
-      <div class="rv" style="--d:2"><div class="v">IPX7</div><div class="k">Chuẩn chống nước</div></div>
-      <div class="rv" style="--d:3"><div class="v">~<span data-count="20">20</span><small>ngày</small></div><div class="k">Mỗi lần sạc, pin 1.500 mAh</div></div>
+    <div class="copy">
+      <span class="kicker rv">Áp lực tia</span>
+      <h2 class="h2 rv" style="--d:1">30-120 psi.<br>Một chạm, ba mức.</h2>
+      <div class="modes rv" style="--d:2">
+        <button type="button" data-m="0" aria-pressed="false">Nhẹ</button>
+        <button type="button" data-m="1" aria-pressed="true">Tiêu chuẩn</button>
+        <button type="button" data-m="2" aria-pressed="false">Xung</button>
+      </div>
+      <span class="mute rv" style="--d:3">1.400-1.800 xung mỗi phút</span>
+    </div>
+    <div class="viz">
+      <div class="jetbox rv r" style="--d:2">
+        <svg width="420" height="360" viewBox="0 0 420 360" aria-hidden="true">
+          <path d="M40 300 L120 300 L150 250 L150 190" fill="none" stroke="#dedad1" stroke-width="22" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M150 190 L176 150" fill="none" stroke="#b9b4a9" stroke-width="10" stroke-linecap="round"/>
+          <path class="s1" d="M180 144 C 240 60, 330 50, 400 70"/>
+          <path class="s2" d="M186 150 C 250 80, 330 78, 400 100"/>
+          <circle cx="300" cy="300" r="34" fill="#f3f1ec"/><path d="M282 300c6-14 30-14 36 0" fill="none" stroke="#b9b4a9" stroke-width="3" stroke-linecap="round"/>
+        </svg>
+        <span class="lab">Chế độ <span data-mode-name>Tiêu chuẩn</span></span>
+      </div>
+      <div class="gauge rv r" style="--d:3">
+        <svg width="260" height="170" viewBox="0 0 260 170" aria-hidden="true">
+          <path d="M30 150 A100 100 0 0 1 230 150" fill="none" stroke="#dedad1" stroke-width="16" stroke-linecap="round"/>
+          <path class="arc" d="M30 150 A100 100 0 0 1 230 150" fill="none" stroke="#1f3bff" stroke-width="16" stroke-linecap="round"/>
+          <g class="needle"><path d="M130 150 L130 66" stroke="#111" stroke-width="5" stroke-linecap="round"/></g>
+          <circle cx="130" cy="150" r="11" fill="#111"/>
+        </svg>
+        <div class="scale"><span>30 psi</span><span>120 psi</span></div>
+        <div class="cap">Mức áp lực tương đối</div>
+      </div>
     </div>
   </div>
 </section>
 
-<section class="photo" id="test" aria-label="Test thật trước khi nói">
-  <div class="clip"><img src="@img:detail.jpg" alt="Cận cảnh đầu tăm và thân bình gân sọc" loading="lazy"></div>
-  <div class="copy"><div class="wrap">
-    <h2 class="h2 rv">Test thật trước khi nói.</h2>
-    <p class="lead rv" style="--d:1">Mỗi sản phẩm trên kênh TIỆN LAB được dùng thử trong ký túc xá, giảng đường và góc học tập trước khi gắn giỏ hàng.</p>
-  </div></div>
-</section>
-
-<section class="sec" id="thong-so">
+<!-- ============ 4 · PIN: 20 ngày sáng dần ============ -->
+<section class="sec blue bat" data-in aria-label="Pin">
   <div class="wrap">
-    <div class="sec-head rv-rule">
-      <div class="idx"><span class="num">A</span><span class="label">Thông số kỹ thuật</span></div>
-      <div class="ttl"><h2 class="h2 rv">Tăm nước<br>Magic B-02 PRO.</h2></div>
-      <div class="aside"><span class="label mute">Đối chiếu với tài liệu<br>nhà cung cấp</span></div>
+    <div class="copy rv">
+      <span class="kicker" style="color:#fff">Pin 1.500 mAh</span>
+      <div class="days" data-count="20">20</div>
+      <span style="font-size:26px;font-weight:800;letter-spacing:-.02em">ngày cho một lần sạc</span>
     </div>
-    <div class="spec-group rv"><h3>Bình nước</h3><dl>
-      <div><dt>Dung tích</dt><dd>200 ml</dd></div>
-      <div><dt>Vệ sinh</dt><dd>Rửa trực tiếp dưới vòi nước</dd></div>
-    </dl></div>
-    <div class="spec-group rv"><h3>Hiệu năng</h3><dl>
-      <div><dt>Áp lực tia nước</dt><dd>30-120 psi</dd></div>
-      <div><dt>Tần số xung</dt><dd>1.400-1.800 xung mỗi phút</dd></div>
-      <div><dt>Chế độ</dt><dd>3 chế độ: Nhẹ, Tiêu chuẩn, Xung</dd></div>
-    </dl></div>
-    <div class="spec-group rv"><h3>Pin</h3><dl>
-      <div><dt>Dung lượng</dt><dd>1.500 mAh</dd></div>
-      <div><dt>Thời gian sử dụng</dt><dd>Khoảng 20 ngày mỗi lần sạc</dd></div>
-    </dl></div>
-    <div class="spec-group rv"><h3>Chống nước</h3><dl>
-      <div><dt>Tiêu chuẩn</dt><dd>IPX7</dd></div>
-      <div><dt>Thân máy</dt><dd>Kín nước hoàn toàn</dd></div>
-    </dl></div>
-    <div class="spec-group rv"><h3>Đầu tăm</h3><dl>
-      <div><dt>Số lượng</dt><dd>4 đầu</dd></div>
-      <div><dt>Loại</dt><dd>Tiêu chuẩn, chăm sóc nướu, niềng răng, cạo lưỡi</dd></div>
-      <div><dt>Khớp nối</dt><dd>Xoay 360°</dd></div>
-    </dl></div>
-    <p class="note">Trước khi lên video, đội FEBA đối chiếu mọi con số trên với tài liệu chính thức của nhà cung cấp. Nội dung không đưa ra tuyên bố chữa bệnh hay hiệu quả tuyệt đối.</p>
+    <div class="viz">
+      <div class="cell-row" aria-hidden="true"><div class="shell"><i></i></div><div class="tip"></div></div>
+      <div class="cal" aria-hidden="true"><span style="--i:0">1</span><span style="--i:1">2</span><span style="--i:2">3</span><span style="--i:3">4</span><span style="--i:4">5</span><span style="--i:5">6</span><span style="--i:6">7</span><span style="--i:7">8</span><span style="--i:8">9</span><span style="--i:9">10</span><span style="--i:10">11</span><span style="--i:11">12</span><span style="--i:12">13</span><span style="--i:13">14</span><span style="--i:14">15</span><span style="--i:15">16</span><span style="--i:16">17</span><span style="--i:17">18</span><span style="--i:18">19</span><span style="--i:19">20</span></div>
+      <span style="font-size:13px;opacity:.85">Theo thông số nhà sản xuất, tuỳ chế độ và số lần dùng</span>
+    </div>
   </div>
 </section>
 
-<section class="sec paper-2" id="danh-muc">
+<!-- ============ 5 · IPX7: máy chìm xuống nước ============ -->
+<section class="water" data-in aria-label="Chống nước IPX7">
+  <div class="copy rv">
+    <span class="kicker">Chống nước</span>
+    <h2>IPX7</h2>
+    <p>Rửa thẳng dưới vòi nước.</p>
+  </div>
+  <div class="sea"></div>
+  <div class="wave" aria-hidden="true"><svg viewBox="0 0 2880 40" preserveAspectRatio="none"><path d="M0 20 Q 90 0 180 20 T 360 20 T 540 20 T 720 20 T 900 20 T 1080 20 T 1260 20 T 1440 20 T 1620 20 T 1800 20 T 1980 20 T 2160 20 T 2340 20 T 2520 20 T 2700 20 T 2880 20 V40 H0z" fill="#5b8cff"/></svg></div>
+  <div class="sink"><img src="@img:product-white.jpg" alt="Tăm nước B-02 PRO dưới nước" loading="lazy"></div>
+  <i class="bub" style="left:44%;width:10px;height:10px;--t:3s;--dl:1.2s"></i><i class="bub" style="left:47%;width:6px;height:6px;--t:3.7s;--dl:1.55s"></i>
+  <i class="bub" style="left:52%;width:14px;height:14px;--t:4.4s;--dl:1.9s"></i><i class="bub" style="left:55%;width:8px;height:8px;--t:5.1s;--dl:2.25s"></i>
+  <i class="bub" style="left:49%;width:12px;height:12px;--t:3s;--dl:2.6s"></i><i class="bub" style="left:58%;width:6px;height:6px;--t:3.7s;--dl:2.95s"></i>
+  <i class="bub" style="left:42%;width:8px;height:8px;--t:4.4s;--dl:3.3s"></i><i class="bub" style="left:53%;width:16px;height:16px;--t:5.1s;--dl:3.65s"></i>
+</section>
+
+<!-- ============ 6 · BỐN ĐẦU TĂM ============ -->
+<section class="sec" aria-label="Bốn đầu tăm">
   <div class="wrap">
-    <div class="sec-head rv-rule">
-      <div class="idx"><span class="num">B</span><span class="label">Danh mục đội bán</span></div>
-      <div class="ttl"><h2 class="h2 rv">Một sản phẩm chủ lực.<br>Bốn dòng mở rộng.</h2><p class="lead rv" style="--d:1">Toàn bộ danh mục do Ban tổ chức chỉ định đều có mặt trên kênh. B-02 PRO là trọng tâm nội dung; các dòng còn lại mở rộng tệp người xem theo từng tình huống dùng.</p></div>
+    <div class="head rv">
+      <h2 class="h2">Bốn đầu tăm.<br><em>Xoay 360°.</em></h2>
+      <span class="note">Rê chuột vào từng đầu để xoay</span>
     </div>
-    <div class="catalog">
-      <article class="prod hero rv">
-        <div class="art"><img src="@img:product-white.jpg" alt="Tăm nước Magic B-02 PRO" loading="lazy"><span class="code" style="z-index:1">B-02PRO</span><span class="tagp main" style="z-index:1">Chủ lực</span></div>
-        <div class="bd">
-          <span class="label klein">Chăm sóc răng miệng</span>
-          <h3>Tăm nước Magic B-02 PRO</h3>
-          <p>3 chế độ, đầu xoay 360°, chống nước IPX7. Trọng tâm của phần lớn video giải thích, trải nghiệm và lời kêu gọi mua hàng.</p>
-          <p class="angle"><b>Góc nội dung:</b> demo cách dùng, so sánh chế độ, hỏi đáp vệ sinh &amp; bảo quản.</p>
-          <div class="ctas" style="margin-top:20px"><a class="btn btn-ink" href="#top" data-go="0">Xem 3D <i>↑</i></a></div>
-        </div>
-      </article>
-
-      <article class="prod c4 rv">
-        <div class="art"><span class="code">B-26</span><span class="tagp">Mở rộng</span>
-          <svg viewBox="0 0 200 260" fill="none" stroke="#111" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"><path d="M84 250V116c0-14 6-22 12-26l1-26h6l1 26c6 4 12 12 12 26v134c0 4-3 7-7 7H91c-4 0-7-3-7-7z"/><rect x="93" y="12" width="14" height="52" rx="7"/><path stroke="#1F3BFF" d="M107 18h11M107 26h11M107 34h11M107 42h11M107 50h11"/><circle cx="100" cy="150" r="8" stroke="#1F3BFF"/><path d="M93 186h14M93 194h14"/></svg>
-        </div>
-        <div class="bd"><span class="label klein">Chăm sóc răng miệng</span><h3>Bàn chải điện Magic B26</h3><p>Bổ trợ cho tăm nước trong thói quen chăm sóc răng miệng hằng ngày.</p><p class="angle"><b>Góc nội dung:</b> routine buổi tối; bàn chải và tăm nước bổ trợ, không thay thế nhau.</p></div>
-      </article>
-
-      <article class="prod c4 rv" style="--d:1">
-        <div class="art"><span class="code">A-028</span><span class="tagp">Mở rộng</span>
-          <svg viewBox="0 0 200 260" fill="none" stroke="#111" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"><circle cx="100" cy="100" r="74"/><circle cx="100" cy="100" r="56" stroke-dasharray="3 6"/><circle cx="100" cy="100" r="13" fill="#1F3BFF" stroke="#1F3BFF"/><path stroke="#1F3BFF" d="M100 87c-6-22 4-40 18-44M113 100c22-6 40 4 44 18M100 113c6 22-4 40-18 44M87 100c-22 6-40-4-44-18"/><path d="M100 174v38"/><rect x="56" y="212" width="88" height="22" rx="11"/><circle cx="124" cy="223" r="3" fill="#111"/></svg>
-        </div>
-        <div class="bd"><span class="label klein">Góc học tập</span><h3>Quạt tích điện để bàn Magic A028</h3><p>Làm mát tại chỗ cho bàn học, bàn làm việc.</p><p class="angle"><b>Góc nội dung:</b> setup góc học tập; so sánh với quạt cầm tay theo tình huống.</p></div>
-      </article>
-
-      <article class="prod c4 rv" style="--d:2">
-        <div class="art"><span class="code">A-014</span><span class="tagp">Mở rộng</span>
-          <svg viewBox="0 0 200 260" fill="none" stroke="#111" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"><circle cx="100" cy="78" r="52"/><circle cx="100" cy="78" r="9" fill="#1F3BFF" stroke="#1F3BFF"/><path stroke="#1F3BFF" d="M100 69c-4-16 3-28 13-31M109 78c16-4 28 3 31 13M100 87c4 16-3 28-13 31M91 78c-16 4-28-3-31-13"/><path d="M90 130h20l3 112c0 6-4 10-9 10h-8c-5 0-9-4-9-10z"/><circle cx="100" cy="160" r="6" stroke="#1F3BFF"/><path d="M95 230h10"/></svg>
-        </div>
-        <div class="bd"><span class="label klein">Di chuyển</span><h3>Quạt mini cầm tay Magic A014</h3><p>Nhỏ gọn cho đi học, di chuyển và hoạt động ngoài trời.</p><p class="angle"><b>Góc nội dung:</b> POV một ngày đi học; kích thước và cách sạc theo listing.</p></div>
-      </article>
-
-      <article class="prod c12 rv">
-        <div class="art" style="aspect-ratio:auto;height:clamp(260px,26vw,340px)"><span class="code">MC · MPI</span><span class="tagp">Mở rộng · 6 biến thể</span>
-          <div class="bottles">
-            <figure><svg viewBox="0 0 60 200" height="150" fill="none" stroke="#111" stroke-width="2" stroke-linejoin="round"><rect x="16" y="6" width="28" height="22" rx="4" fill="#1F3BFF" stroke="#1F3BFF"/><path d="M12 30h36v158c0 4-3 6-6 6H18c-3 0-6-2-6-6z"/><path d="M12 60h36"/></svg>MC500</figure>
-            <figure><svg viewBox="0 0 60 200" height="158" fill="none" stroke="#111" stroke-width="2" stroke-linejoin="round"><rect x="18" y="4" width="24" height="24" rx="10"/><path d="M12 30h36v158c0 4-3 6-6 6H18c-3 0-6-2-6-6z"/><path d="M12 150h36" stroke="#1F3BFF"/></svg>MC570</figure>
-            <figure><svg viewBox="0 0 60 200" height="170" fill="none" stroke="#111" stroke-width="2" stroke-linejoin="round"><rect x="14" y="6" width="32" height="20" rx="3"/><path d="M30 6V0" /><path d="M10 28h40v160c0 4-3 6-6 6H16c-3 0-6-2-6-6z"/><path d="M10 120h40" stroke="#1F3BFF"/></svg>MC650</figure>
-            <figure><svg viewBox="0 0 60 200" height="190" fill="none" stroke="#111" stroke-width="2" stroke-linejoin="round"><rect x="15" y="4" width="30" height="24" rx="5" fill="#1F3BFF" stroke="#1F3BFF"/><path d="M10 30h40v158c0 4-3 6-6 6H16c-3 0-6-2-6-6z"/><path d="M50 60c10 0 10 40 0 40"/></svg>MC870</figure>
-            <figure><svg viewBox="0 0 60 200" height="215" fill="none" stroke="#111" stroke-width="2" stroke-linejoin="round"><rect x="14" y="2" width="32" height="26" rx="6"/><path d="M8 30h44v158c0 4-3 6-6 6H14c-3 0-6-2-6-6z"/><path d="M8 54h44M8 170h44" stroke="#1F3BFF"/></svg>MC1200</figure>
-            <figure><svg viewBox="0 0 60 200" height="140" fill="none" stroke="#111" stroke-width="2" stroke-linejoin="round"><path d="M10 16h40l-2 12H12z" fill="#1F3BFF" stroke="#1F3BFF"/><path d="M12 30h36l-4 158c0 4-3 6-6 6H22c-3 0-6-2-6-6z"/></svg>MPI480</figure>
-          </div>
-        </div>
-        <div class="bd"><span class="label klein">Đi học · đi làm</span><h3>Bình giữ nhiệt Magic · 06 biến thể</h3><p>Sáu mẫu cho từng nhu cầu mang theo hằng ngày; mỗi biến thể được theo dõi lượt nhấp và đơn riêng.</p><p class="angle"><b>Góc nội dung:</b> chọn màu, kiểu theo nhu cầu; kiểm tra đúng mẫu trong giỏ hàng.</p></div>
-      </article>
+    <div class="grid g4">
+      <div class="hcard rv" style="--d:1;--fr:-4deg;--fy:80px"><article class="tile lift">
+        <div class="pic"><svg viewBox="0 0 120 170" aria-hidden="true"><rect x="44" y="120" width="32" height="44" rx="8" fill="#dedad1"/><path d="M60 122V40l16-26" fill="none" stroke="#1f3bff" stroke-width="10" stroke-linecap="round"/></svg></div>
+        <span class="no">01</span><h3>Tiêu chuẩn</h3><p>Làm sạch kẽ răng</p></article></div>
+      <div class="hcard rv" style="--d:2;--fr:4deg;--fy:80px"><article class="tile lift">
+        <div class="pic"><svg viewBox="0 0 120 170" aria-hidden="true"><rect x="44" y="120" width="32" height="44" rx="8" fill="#dedad1"/><path d="M60 122V50" fill="none" stroke="#1f3bff" stroke-width="10" stroke-linecap="round"/><ellipse cx="60" cy="36" rx="16" ry="20" fill="#a9b4ff"/></svg></div>
+        <span class="no">02</span><h3>Chăm sóc nướu</h3><p>Đầu mềm</p></article></div>
+      <div class="hcard rv" style="--d:3;--fr:-4deg;--fy:80px"><article class="tile lift">
+        <div class="pic"><svg viewBox="0 0 120 170" aria-hidden="true"><rect x="44" y="120" width="32" height="44" rx="8" fill="#dedad1"/><path d="M60 122V56" fill="none" stroke="#1f3bff" stroke-width="10" stroke-linecap="round"/><path d="M44 52h32M46 44h28M48 36h24M50 28h20M52 20h16" stroke="#111" stroke-width="3" stroke-linecap="round"/></svg></div>
+        <span class="no">03</span><h3>Niềng răng</h3><p>Đầu lông chải</p></article></div>
+      <div class="hcard rv" style="--d:4;--fr:4deg;--fy:80px"><article class="tile lift">
+        <div class="pic"><svg viewBox="0 0 120 170" aria-hidden="true"><rect x="44" y="120" width="32" height="44" rx="8" fill="#dedad1"/><path d="M60 122V70" fill="none" stroke="#1f3bff" stroke-width="10" stroke-linecap="round"/><path d="M60 70C30 66 26 20 60 16c34 4 30 50 0 54z" fill="none" stroke="#111" stroke-width="5"/></svg></div>
+        <span class="no">04</span><h3>Cạo lưỡi</h3><p>Vòng cạo mảnh</p></article></div>
     </div>
-    <p class="note">Hình vẽ nét minh hoạ cho các sản phẩm mở rộng. Thông tin và ưu đãi luôn lấy theo listing chính thức trên TikTok Shop.</p>
   </div>
 </section>
 
-<a class="next" href="chien-dich.html"><div class="wrap"><div><span class="label mute">Tiếp theo · 03</span><p class="t">Chiến dịch</p></div><span class="arr">→</span></div></a>
+<!-- ============ 7 · KẾT ============ -->
+<section class="sec dark p-cta" id="mua" aria-label="Mua sản phẩm">
+  <div class="wrap">
+    <div class="rv" style="display:flex;flex-direction:column;gap:20px">
+      <h2>Thấy rồi.<br><em>Dùng thử thôi.</em></h2>
+      <div class="ctas"><a class="btn btn-blue" href="chien-dich.html">Xem cách đội bán</a><a class="btn btn-ghost" href="index.html">Gặp đội thi</a></div>
+      <span style="font-size:13px;color:#b9b4a9">Giá và ưu đãi xem trong giỏ hàng TikTok Shop của kênh TIỆN LAB</span>
+    </div>
+    <div class="spec-tiles rv r" style="--d:2">
+      <div><b>200 ml</b><span>Bình nước</span></div>
+      <div><b>30-120</b><span>psi áp lực tia</span></div>
+      <div><b>IPX7</b><span>Chống nước</span></div>
+      <div><b>3</b><span>Chế độ</span></div>
+      <div><b>1.500</b><span>mAh, khoảng 20 ngày</span></div>
+      <div class="hl"><b>4</b><span>Đầu tăm xoay 360°</span></div>
+    </div>
+  </div>
+</section>
 </main>
