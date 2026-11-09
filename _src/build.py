@@ -26,7 +26,7 @@ DOMAIN = "feba.id.vn"
 PAGES = [
     # file, url path, title, description, nav key, uses 3D, images loaded eagerly (above the fold)
     ("index.html", "/", "FEBA · Đội thi Kinh doanh số 2026", "FEBA: bốn sinh viên Kinh tế số, Học viện Chính sách và Phát triển, vận hành kênh TIỆN LAB trên TikTok Shop Affiliate. Bán bằng nội dung. Quyết bằng dữ liệu.", "team", False, 4),
-    ("san-pham.html", "/san-pham", "Tăm nước B-02 PRO · FEBA", "Tăm nước không dây Magic B-02 PRO: bình 200 ml, 30-120 psi, IPX7, pin 1.500 mAh, 4 đầu tăm xoay 360°. Cuộn để mở từng lớp bằng mô hình 3D.", "product", True, 1),
+    ("san-pham.html", "/san-pham", "Tăm nước B-02 PRO · FEBA", "Tăm nước không dây Magic B-02 PRO: bình 200 ml, 20-120 psi, IPX7, pin 1.500 mAh, 4 đầu tăm xoay 360°. Cuộn để mở từng lớp bằng mô hình 3D.", "product", True, 1),
     ("chien-dich.html", "/chien-dich", "Chiến dịch TIỆN LAB · FEBA", "Chiến dịch TIỆN LAB trên TikTok Shop Affiliate: quy trình, khách hàng, năm trụ cột nội dung, nhịp đăng, lộ trình 01/10 đến 05/12/2026 và mục tiêu.", "campaign", False, 1),
 ]
 NAV = [("team", "/", "Đội thi"), ("product", "/san-pham", "Sản phẩm"), ("campaign", "/chien-dich", "Chiến dịch")]
