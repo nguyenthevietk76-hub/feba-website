@@ -22,6 +22,7 @@ ROOT = os.path.dirname(HERE)
 OUT = os.path.join(ROOT, "docs")
 SITE = "https://feba.id.vn"
 DOMAIN = "feba.id.vn"
+OG = "/assets/img/og.jpg"   # được gắn mã phiên bản khi dựng, để mạng xã hội lấy ảnh mới
 
 PAGES = [
     # file, url path, title, description, nav key, uses 3D, images loaded eagerly (above the fold)
@@ -154,7 +155,7 @@ def head(title, desc, path, css_url, preload, extra=""):
 <meta property="og:url" content="{url}">
 <meta property="og:title" content="{title}">
 <meta property="og:description" content="{desc}">
-<meta property="og:image" content="{SITE}/assets/img/og.jpg">
+<meta property="og:image" content="{SITE}{OG}">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
@@ -183,7 +184,8 @@ def build():
     site_js = asset("site.js", read("site.js"))
     three_js = asset("three.min.js", read("three.min.js"))
     app_js = asset("app.js", read("app.js").replace("/*@@PARTS@@*/", read("parts.js")))
-    asset("img/og.jpg", read(os.path.join("img", "og.jpg"), "rb"))
+    global OG
+    OG = asset("img/og.jpg", read(os.path.join("img", "og.jpg"), "rb"))
 
     images = {}
 

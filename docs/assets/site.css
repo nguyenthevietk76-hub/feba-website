@@ -1028,3 +1028,7 @@ a.bet:hover{color:var(--ink);border-color:var(--ink);transform:translateY(-6px);
 .hero-pts li{display:flex;flex-direction:column;padding:12px 0;border-bottom:1px solid var(--line)}
 .hero-pts b{font-size:16px;font-weight:800;letter-spacing:-.01em}
 .hero-pts span{font-size:14px;color:var(--ink-2)}
+.phone .screen::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(17,17,17,.3) 0%,rgba(17,17,17,0) 24%,rgba(17,17,17,0) 50%,rgba(17,17,17,.62) 100%);pointer-events:none}
+.board .shot-lab{right:auto;max-width:calc(100% - 28px);background:rgba(17,17,17,.62);padding:5px 9px;border-radius:6px;text-shadow:none}
+.swipe-hint{display:none;font-size:12.5px;font-weight:700;color:var(--mute);margin-bottom:8px}
+@media (max-width:1100px){.swipe-hint{display:block}}
