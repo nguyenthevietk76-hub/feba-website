@@ -349,6 +349,82 @@
     }, 3800);
   });
 
+  /* ================= BẢNG SỐ LIỆU: đọc từ <script id="feba-data"> (dựng từ _src/data.json) ================= */
+  const DATA = (() => { try { return JSON.parse($('#feba-data').textContent); } catch (e) { return null; } })();
+  const pick = p => p.split('.').reduce((v, k) => v == null ? v : v[k], DATA);
+  const vn = (n, d) => (+n).toLocaleString('vi-VN', { minimumFractionDigits: d || 0, maximumFractionDigits: d == null ? 1 : d });
+  const PAL2 = ['#1f3bff', '#111111', '#a9b4ff', '#6a7dff', '#c9c4b8', '#3d55ff'];
+  const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+
+  /* tab chuyển bảng */
+  $$('[data-dtabs]').forEach(box => {
+    const btns = $$('[role=tab]', box), panels = $$('[role=tabpanel]', box);
+    const show = b => {
+      btns.forEach(x => { const on = x === b; x.setAttribute('aria-selected', on); x.tabIndex = on ? 0 : -1; });
+      panels.forEach(p => { p.hidden = p.id !== b.getAttribute('aria-controls'); if (!p.hidden) p.querySelectorAll('.dz').forEach(z => { z.classList.remove('in'); void z.offsetWidth; z.classList.add('in'); }); });
+    };
+    btns.forEach((b, i) => {
+      b.addEventListener('click', () => show(b));
+      b.addEventListener('keydown', e => { const d = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0; if (d) { e.preventDefault(); const n = btns[(i + d + btns.length) % btns.length]; show(n); n.focus(); } });
+    });
+  });
+
+  if (DATA) {
+    /* thanh ngang: data-hbars="đường dẫn", data-l / data-v / data-s = vị trí cột nhãn, giá trị, chú thích */
+    $$('[data-hbars]').forEach(box => {
+      const rows = pick(box.dataset.hbars) || [], L = +box.dataset.l || 0, V = +(box.dataset.v || 1), S = box.dataset.s;
+      const unit = box.dataset.unit || '', sunit = box.dataset.sunit || '', max = Math.max(...rows.map(r => r[V]));
+      const tot = rows.reduce((a, r) => a + r[V], 0);
+      box.innerHTML = rows.map((r, i) => '<div class="hb' + (i === 0 ? ' hl' : '') + '"><span class="hb-l">' + esc(r[L]) + (S !== undefined ? '<small>' + vn(r[+S], 0) + sunit + '</small>' : '') + '</span>' +
+        '<span class="hb-bar"><i style="--w:' + (r[V] / max * 100).toFixed(1) + '%;--k:' + i + '"></i></span><b>' + vn(r[V], 1) + unit + '</b><small class="hb-p">' + vn(r[V] / tot * 100, 0) + '%</small></div>').join('');
+    });
+
+    /* biểu đồ vòng: data-donut="đường dẫn" các phần [nhãn, giá trị] */
+    $$('[data-donut]').forEach(box => {
+      const parts = pick(box.dataset.donut) || [], tot = parts.reduce((a, p) => a + p[1], 0), unit = box.dataset.unit || '';
+      let acc = 0;
+      const stops = parts.map((p, i) => { const a = acc; acc += p[1] / tot * 100; return PAL2[i] + ' ' + a.toFixed(2) + '% ' + acc.toFixed(2) + '%'; }).join(',');
+      box.innerHTML = '<div class="dn-ring" style="background:conic-gradient(' + stops + ')"><span><b>' + vn(tot, 1) + unit + '</b>tổng chi phí</span></div>' +
+        '<ul class="dn-leg">' + parts.map((p, i) => '<li><i style="background:' + PAL2[i] + '"></i><span>' + esc(p[0]) + '</span><b>' + vn(p[1], 1) + unit + '</b><small>' + vn(p[1] / tot * 100, 0) + '%</small></li>').join('') + '</ul>';
+    });
+
+    /* mục tiêu theo giai đoạn: chọn chỉ số để so ba giai đoạn */
+    $$('[data-phases]').forEach(box => {
+      const ph = pick('ke_hoach.giai_doan'), keys = [['sp', 'Sản phẩm', ''], ['gmv', 'GMV', ' tr'], ['video', 'Video', '']];
+      const sel = $('.ph-sel', box), out = $('.ph-cols', box), note = $('.ph-note', box);
+      sel.innerHTML = keys.map((k, i) => '<button type="button" aria-pressed="' + (i ? 'false' : 'true') + '" data-k="' + k[0] + '">' + k[1] + '</button>').join('');
+      const draw = k => {
+        const meta = keys.find(x => x[0] === k), max = Math.max(...ph.map(p => p[k]));
+        out.innerHTML = ph.map((p, i) => '<div class="ph"><div class="ph-bar"><b>' + vn(p[k]) + meta[2] + '</b><i style="--h:' + (p[k] / max * 100).toFixed(1) + '%;--k:' + i + '"></i></div><strong>' + esc(p.ten) + '</strong><span>' + esc(p.thoi_gian) + '</span></div>').join('');
+        $$('button', sel).forEach(b => b.setAttribute('aria-pressed', b.dataset.k === k));
+        note.textContent = ph.map(p => p.ten + ': ' + p.trong_tam).join(' · ');
+      };
+      sel.addEventListener('click', e => { const b = e.target.closest('button'); if (b) draw(b.dataset.k); });
+      draw('sp');
+    });
+
+    /* video mẫu của kênh, xếp theo trụ cột nội dung (chỉ tên và đường dẫn, không kèm số liệu) */
+    $$('[data-vlist]').forEach(box => {
+      const url = pick('kenh.url'), vids = pick('kenh.video_mau') || [];
+      box.innerHTML = vids.map(v => '<a href="' + url + '/video/' + v.id + '" target="_blank" rel="noopener"><span class="vt">' + esc(v.nhom) + '</span><span>' + esc(v.tieu_de) + '</span><b>Xem ↗</b></a>').join('');
+    });
+
+    /* ba kịch bản tài chính */
+    $$('[data-scen]').forEach(box => {
+      const sc = pick('ke_hoach.kich_ban'), max = Math.max(...sc.map(s => s.gmv));
+      box.innerHTML = sc.map((s, i) => '<div class="sc' + (s.ten === 'Cơ sở' ? ' hl' : '') + '"><strong>' + esc(s.ten) + '</strong>' +
+        '<div class="sc-bar"><i style="--w:' + (s.gmv / max * 100).toFixed(1) + '%;--k:' + i + '"></i><span>GMV ' + vn(s.gmv, 1) + ' tr</span></div>' +
+        '<dl><dt>Hoa hồng</dt><dd>' + vn(s.hoa_hong, 1) + ' tr</dd><dt>Chi phí</dt><dd>' + vn(s.chi_phi, 1) + ' tr</dd><dt>Lợi nhuận</dt><dd>' + vn(s.loi_nhuan, 2) + ' tr</dd><dt>ROI</dt><dd>' + s.roi + '%</dd></dl></div>').join('');
+    });
+
+    /* GMV hoà vốn theo tỷ lệ hoa hồng, so với mục tiêu */
+    $$('[data-breakeven]').forEach(box => {
+      const be = pick('ke_hoach.hoa_von'), goal = pick('ke_hoach.muc_tieu.gmv'), top = Math.max(goal, ...be.map(b => b[1])) * 1.1;
+      box.innerHTML = '<div class="be-plot"><span class="be-goal" style="bottom:calc(30px + (100% - 50px) * ' + (goal / top).toFixed(4) + ')"><b>Mục tiêu ' + vn(goal, 1) + ' tr</b></span>' +
+        be.map((b, i) => '<div class="be' + (b[0] === 12 ? ' hl' : '') + '" style="--h:' + (b[1] / top * 100).toFixed(1) + '%;--k:' + i + '"><i></i><b>' + vn(b[1], 1) + ' tr</b><span>Hoa hồng ' + b[0] + '%</span></div>').join('') + '</div>';
+    });
+  }
+
   /* ---------- preview helper (?to=id | ?y=px | ?p=story progress) for screenshots ---------- */
   if (SHOT) addEventListener('load', () => setTimeout(() => {
     let y = +Q.get('y') || 0;

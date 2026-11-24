@@ -17,19 +17,17 @@ Nền kem `#F3F1EC`, chữ đen mực `#111111`, nhấn xanh Klein `#1F3BFF`, ph
 GitHub Pages phục vụ thư mục `docs/` (nhánh `main`). Ảnh, phông chữ, CSS, JS nằm riêng trong `docs/assets/` để trình duyệt lưu đệm.
 Địa chỉ cũ dạng `/website/...` tự chuyển về địa chỉ mới.
 
-## Mạch kể chuyện
+## Nội dung các trang
 
-Cả ba trang là sổ tay của "phòng thí nghiệm bán hàng" TIỆN LAB, chia chương (mục lục chương tự hiện bên trái màn hình rộng, nhãn chương ở đáy trên điện thoại):
-
-| Trang | Các chương |
+| Trang | Các phần |
 |---|---|
-| Đội thi | 01 Câu hỏi (cùng sản phẩm, cùng giá: thắng bằng gì?) · 02 Giả thuyết · 03 Người làm · 04 Thí nghiệm đang chạy · 05 Tiếp theo |
-| Sản phẩm | 01 Vấn đề (nhân vật Minh Anh) · 02 Vì sao chọn (chấm điểm có trọng số) · 03 Mở máy ra (3D) · 04 Đo thông số · 05 Kết luận, đặt mua |
-| Chiến dịch | 01 Người xem · 02 Một video (kịch bản 60 giây cuộn theo giây) · 03 Nội dung · 04 Phễu tính ngược · 05 Nhịp, lộ trình · 06 Luật |
+| Đội thi | Giới thiệu đội · Hướng đi (sản phẩm, khách hàng, kênh bán) · Đội ngũ, kỹ năng, kinh nghiệm · Một ngày vận hành · Phim |
+| Sản phẩm | Vì sao chọn B-02 PRO (chấm điểm, vai trò từng nhóm, doanh số mục tiêu) · Người mua · Mô hình 3D · Thông số · Cách trình bày giá · Video mẫu · Đặt mua |
+| Chiến lược | Bảng kế hoạch (giai đoạn, sản phẩm, chi phí, ba kịch bản, hoà vốn) · Phễu · Khách hàng · Nội dung, kịch bản mẫu, lịch đăng, lịch theo mùa · Kênh bán và đơn hàng · Rủi ro · Lộ trình, phân vai |
 
-Thêm chương mới: gắn `data-chap="06" data-chap-name="Tên"` vào thẻ `<section>` đầu chương. Số liệu và câu chữ lấy từ kế hoạch kinh doanh của đội; nhân vật khách hàng có ghi rõ là nhân vật đại diện.
+Viết về việc của đội, không nhắc lại đề bài hay thông tin Ban tổ chức cung cấp. Không đưa số liệu tiến độ thật của kênh (người theo dõi, lượt xem, số đơn) lên website.
 
-**Cập nhật số liệu hằng tuần** (`_src/pages/index.html`, tìm "Đồng hồ đo" và "Nhật ký thí nghiệm"): sửa số người theo dõi, độ dài thanh (`--p:4.6%`), ngày "Số tại báo cáo", thêm dòng nhật ký `<li class="log-i rv" data-date="dd/mm">`. Mốc đã qua tự sáng lên theo ngày hôm nay.
+**Số liệu kế hoạch** nằm trong `_src/data.json` (mục tiêu, doanh số theo sản phẩm, chi phí, kịch bản, hoà vốn, video mẫu). Sửa tệp này rồi dựng lại; trong trang viết `{{d:ke_hoach.muc_tieu.sp}}` để chèn một số.
 
 ## Sửa nội dung
 

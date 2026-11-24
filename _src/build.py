@@ -14,7 +14,7 @@ Xem thử trên máy: chạy một máy chủ tĩnh ở thư mục docs/ (đư�
   _src/app.js        mô hình 3D + kịch bản cuộn (trang sản phẩm), _src/parts.js linh kiện
   _src/video/        dự án Remotion dựng phim giới thiệu
 """
-import hashlib, os, re, shutil
+import hashlib, json, os, re, shutil
 from PIL import Image
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -25,11 +25,11 @@ DOMAIN = "feba.id.vn"
 
 PAGES = [
     # file, url path, title, description, nav key, uses 3D, images loaded eagerly (above the fold)
-    ("index.html", "/", "FEBA · Đội thi Kinh doanh số 2026", "Cùng sản phẩm, cùng giá, khác nhau ở cách kể. FEBA là bốn sinh viên Học viện Chính sách và Phát triển vận hành TIỆN LAB: test thật đồ dùng Magic rồi kể lại trên TikTok.", "team", False, 4),
-    ("san-pham.html", "/san-pham", "Tăm nước B-02 PRO · FEBA", "Mẫu thử số 01 của TIỆN LAB: vì sao chọn tăm nước Magic B-02 PRO, mở từng lớp bằng mô hình 3D, đo áp lực 20-120 psi, IPX7, pin 1.500 mAh, 4 đầu tăm.", "product", True, 1),
-    ("chien-dich.html", "/chien-dich", "Chiến dịch TIỆN LAB · FEBA", "Cách TIỆN LAB kể chuyện trên TikTok: hai nhân vật khách hàng, kịch bản 60 giây, năm trụ cột nội dung, phễu tính ngược từ 200 sản phẩm, lộ trình và luật họp tuần.", "campaign", False, 1),
+    ("index.html", "/", "FEBA · Đội thi Kinh doanh số 2026", "FEBA: bốn sinh viên Học viện Chính sách và Phát triển vận hành TIỆN LAB, kênh TikTok @feba.shop và website bán hàng trên Haravan, bán đồ dùng Magic cho sinh viên và người đi làm trẻ.", "team", False, 4),
+    ("san-pham.html", "/san-pham", "Tăm nước B-02 PRO · FEBA", "Tăm nước Magic B-02 PRO, sản phẩm chủ lực của TIỆN LAB: vì sao đội chọn, người mua đội nhắm tới, mô hình 3D tách lớp, thông số 20-120 psi, IPX7, pin 1.500 mAh, 4 đầu tăm.", "product", True, 1),
+    ("chien-dich.html", "/chien-dich", "Chiến lược TIỆN LAB · FEBA", "Chiến lược TIỆN LAB: mục tiêu và kế hoạch tài chính, phễu chuyển đổi, khách hàng, nội dung, lịch đăng, kênh bán và đơn hàng, rủi ro, lộ trình.", "campaign", False, 1),
 ]
-NAV = [("team", "/", "Đội thi"), ("product", "/san-pham", "Sản phẩm"), ("campaign", "/chien-dich", "Chiến dịch")]
+NAV = [("team", "/", "Đội thi"), ("product", "/san-pham", "Sản phẩm"), ("campaign", "/chien-dich", "Chiến lược")]
 STORE = "https://feba.myharavan.com"
 TIKTOK = "https://www.tiktok.com/@feba.shop"
 # nút nổi bật trên đầu trang: mọi trang đều dẫn về cửa hàng (kênh ra đơn chính)
@@ -102,6 +102,39 @@ def footer():
 </footer>'''
 
 
+def num(v, dec=None):
+    """số kiểu Việt Nam: 1.856 · 27,9"""
+    if isinstance(v, float) and dec is None:
+        dec = 1 if abs(v - round(v)) > 1e-9 else 0
+    s = ("{:,.%df}" % (dec or 0)).format(v)
+    return s.replace(",", "\x00").replace(".", ",").replace("\x00", ".")
+
+
+def load_data():
+    """_src/data.json (kế hoạch của đội) + vài số tính sẵn. Không chứa số liệu tiến độ thật của kênh."""
+    d = json.loads(read("data.json"))
+    d.pop("_huong_dan", None)
+    kh = d["ke_hoach"]
+    b02 = kh["gmv_san_pham"][0]
+    d["tinh"] = {
+        "tong_chi_phi": sum(c[1] for c in kh["chi_phi"]),
+        "ty_trong_b02": round(b02[2] / kh["muc_tieu"]["gmv"] * 100),
+        "gia_tri_tb_don": round(kh["muc_tieu"]["gmv"] * 1e6 / kh["muc_tieu"]["sp"] / 1000),
+    }
+    return d
+
+
+def fill_data(html, d):
+    """{{d:ke_hoach.muc_tieu.sp}} -> 200 ; {{p:...}} -> số thô (cho CSS)"""
+    def get(path):
+        v = d
+        for part in path.split("."):
+            v = v[int(part)] if isinstance(v, list) else v[part]
+        return v
+    html = re.sub(r"\{\{p:([\w.]+)\}\}", lambda m: str(get(m.group(1))), html)
+    return re.sub(r"\{\{d:([\w.]+)\}\}", lambda m: num(get(m.group(1))) if isinstance(get(m.group(1)), (int, float)) else str(get(m.group(1))), html)
+
+
 def head(title, desc, path, css_url, preload, extra=""):
     url = SITE + path
     return f'''<!DOCTYPE html>
@@ -168,12 +201,16 @@ def build():
             extra += ' loading="lazy"' if state["n"] > state["eager"] else ' fetchpriority="high"'
         return '<img%s src="%s"%s%s decoding="async">' % (attrs, url, rest, extra)
 
+    data = load_data()
+    data_tag = '<script id="feba-data" type="application/json">%s</script>' % json.dumps(data, ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/")
+
     for fname, path, title, desc, nav, is3d, eager in PAGES:
         state = {"n": 0, "eager": eager}
         body = read(os.path.join("pages", fname))
         body = re.sub(r'<img([^>]*?) src="@img:([\w.-]+)"([^>]*?)>', lambda m: img_tag(m, state), body)
+        body = fill_data(body, data)
         body = body.replace("<main>", '<main id="noi-dung">', 1)
-        scripts = '<script src="%s" defer></script>' % site_js
+        scripts = data_tag + '\n<script src="%s" defer></script>' % site_js
         if is3d:
             scripts = '<script src="%s" defer></script>\n%s\n<script src="%s" defer></script>' % (three_js, scripts, app_js)
         html = head(title, desc, path, css_url, "\n".join(preload)) + f'''
@@ -196,7 +233,7 @@ def build():
   <span class="kicker">Lỗi 404</span>
   <h1 class="h2">Trang này không có ở đây.</h1>
   <p class="mute">Có thể đường dẫn đã cũ hoặc gõ nhầm. Chọn một trang bên dưới.</p>
-  <div class="ctas"><a class="btn btn-blue" href="/">Đội thi</a><a class="btn btn-line" href="/san-pham">Sản phẩm</a><a class="btn btn-line" href="/chien-dich">Chiến dịch</a></div>
+  <div class="ctas"><a class="btn btn-blue" href="/">Đội thi</a><a class="btn btn-line" href="/san-pham">Sản phẩm</a><a class="btn btn-line" href="/chien-dich">Chiến lược</a></div>
 </div></main>
 {footer()}
 <script src="{site_js}" defer></script>

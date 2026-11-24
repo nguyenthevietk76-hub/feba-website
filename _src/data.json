@@ -1,0 +1,55 @@
+{
+  "_huong_dan": "Dữ liệu kế hoạch hiển thị trên feba.id.vn (bảng mục tiêu, doanh số theo sản phẩm, chi phí, kịch bản, hoà vốn). Không đưa số liệu tiến độ thật của kênh vào đây vì tệp được nhúng vào trang. Sửa xong chạy python _src/build.py.",
+  "kenh": {
+    "ten": "@feba.shop",
+    "url": "https://www.tiktok.com/@feba.shop",
+    "video_mau": [
+      { "nhom": "Giải đáp", "id": "7710871068348566804", "tieu_de": "Đánh răng xong có nên súc miệng ngay không?" },
+      { "nhom": "Tiện Lab Test", "id": "7710447057760357652", "tieu_de": "Tối nay thử bấm giờ lúc đánh răng xem, bạn được mấy giây?" },
+      { "nhom": "Đời sống sinh viên", "id": "7710446941825551636", "tieu_de": "Người niềng răng sẽ hiểu: quy trình 3 bước mỗi tối" },
+      { "nhom": "Giải đáp", "id": "7710871566283705620", "tieu_de": "Uống trà sữa, trà chanh xong có nên đánh răng ngay?" },
+      { "nhom": "Đời sống sinh viên", "id": "7710833234636016916", "tieu_de": "Mất điện phải làm sao" },
+      { "nhom": "Đời sống sinh viên", "id": "7710833063869091092", "tieu_de": "Trời lạnh nhớ uống nước nhé mọi người" }
+    ]
+  },
+  "website": { "url": "https://feba.myharavan.com", "san_pham_chu_luc": "https://feba.myharavan.com/products/tam-nuoc-magic-b-02-pro" },
+  "ke_hoach": {
+    "giai_doan": [
+      { "ten": "Sơ loại", "thoi_gian": "đến 10/11", "sp": 30, "gmv": 9.3, "video": 15, "live": "0-1", "trong_tam": "Xây kênh, mở website bán hàng, tìm 2-3 dạng nội dung hiệu quả" },
+      { "ten": "Vòng Loại", "thoi_gian": "11-25/11", "sp": 80, "gmv": 24.9, "video": 25, "live": "2", "trong_tam": "Đơn qua website trong lúc chờ mở giỏ hàng TikTok; 11.11, 20/11" },
+      { "ten": "Bán kết", "thoi_gian": "26/11-05/12", "sp": 90, "gmv": 28.0, "video": 20, "live": "3", "trong_tam": "Bán trên cả hai kênh; Black Friday, đầu tháng 12" }
+    ],
+    "gmv_san_pham": [
+      ["Tăm nước B-02 PRO", 100, 27.9],
+      ["Bàn chải điện B26", 35, 12.565],
+      ["Quạt để bàn A028", 15, 5.685],
+      ["Quạt cầm tay A014", 15, 4.785],
+      ["Bình MC650", 6, 2.334],
+      ["Bình MC500", 8, 2.232],
+      ["Bình MC870", 5, 1.945],
+      ["Bình MC570", 8, 1.672],
+      ["Bình MC1200", 4, 1.556],
+      ["Bình MPI480", 4, 1.556]
+    ],
+    "vai_tro": [
+      ["Chủ lực", "Tăm nước B-02 PRO", 40, 45],
+      ["Bán kèm", "Bàn chải điện B26", 20, 20],
+      ["Theo mùa", "6 mẫu bình giữ nhiệt", 20, 18],
+      ["Kéo lượt xem", "Quạt A014, A028", 20, 17]
+    ],
+    "chi_phi": [
+      ["Quảng cáo cho video đạt ngưỡng", 2.0],
+      ["Đạo cụ, ánh sáng, phông nền", 0.6],
+      ["Mẫu thử dự phòng", 0.5],
+      ["Quà tri ân, minigame", 0.4],
+      ["Internet, in ấn, khác", 0.3]
+    ],
+    "kich_ban": [
+      { "ten": "Thận trọng", "gmv": 31.1, "hoa_hong": 3.55, "chi_phi": 2.8, "loi_nhuan": 0.39, "roi": 14 },
+      { "ten": "Cơ sở", "gmv": 62.2, "hoa_hong": 7.09, "chi_phi": 3.8, "loi_nhuan": 2.58, "roi": 68 },
+      { "ten": "Tăng trưởng", "gmv": 93.3, "hoa_hong": 10.64, "chi_phi": 4.8, "loi_nhuan": 4.78, "roi": 100 }
+    ],
+    "hoa_von": [[8, 55.6], [10, 44.4], [12, 37.0], [15, 29.6]],
+    "muc_tieu": { "sp": 200, "gmv": 62.2, "video": 60, "live": 6, "luot_xem": 333000 }
+  }
+}
