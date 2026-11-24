@@ -213,6 +213,142 @@
   });
   addEventListener('pageshow', () => body.classList.remove('leaving'));
 
+  /* ================= KỂ CHUYỆN ================= */
+  /* ---------- mục lục chương: dựng từ section[data-chap], đánh dấu chương đang đọc ---------- */
+  const chaps = $$('[data-chap]');
+  if (chaps.length > 1) {
+    const toc = document.createElement('nav'), pill = document.createElement('div');
+    toc.className = 'toc'; toc.setAttribute('aria-label', 'Các chương');
+    pill.className = 'chip-now'; pill.setAttribute('aria-hidden', 'true');
+    chaps.forEach((s, i) => {
+      if (!s.id) s.id = 'chuong-' + s.dataset.chap;
+      const a = document.createElement('a');
+      a.href = '#' + s.id;
+      a.innerHTML = '<i></i><span>' + s.dataset.chap + ' · ' + s.dataset.chapName + '</span>';
+      toc.appendChild(a);
+    });
+    body.appendChild(toc); body.appendChild(pill);
+    const links = $$('a', toc);
+    const mark = () => {
+      const mid = innerHeight * 0.45;
+      let cur = -1;
+      chaps.forEach((s, i) => { if (s.getBoundingClientRect().top <= mid) cur = i; });
+      const last = chaps[chaps.length - 1].getBoundingClientRect();
+      const on = cur >= 0 && last.bottom > mid * 0.6;
+      toc.classList.toggle('on', on); pill.classList.toggle('on', on);
+      links.forEach((a, i) => a.classList.toggle('on', i === cur));
+      if (cur >= 0) {
+        const s = chaps[cur];
+        toc.classList.toggle('dk', s.classList.contains('dark') || s.classList.contains('blue'));
+        pill.innerHTML = '<b>' + s.dataset.chap + '</b>' + s.dataset.chapName;
+      }
+    };
+    addEventListener('scroll', mark, { passive: true }); addEventListener('resize', mark); mark();
+  }
+
+  /* ---------- khối cuộn kể chuyện: bước nào ở giữa màn hình thì bước đó sáng ---------- */
+  $$('[data-scrolly]').forEach(root => {
+    const steps = $$('.sstep', root);
+    const set = i => {
+      if (root.dataset.step === String(i)) return;
+      root.dataset.step = i;
+      steps.forEach((s, k) => s.classList.toggle('on', k === i));
+      root.dispatchEvent(new CustomEvent('step', { detail: { i, el: steps[i] } }));
+    };
+    const pick = () => {
+      const mid = innerHeight * 0.55;
+      let i = 0;
+      steps.forEach((s, k) => { if (s.getBoundingClientRect().top < mid) i = k; });
+      set(i);
+    };
+    addEventListener('scroll', pick, { passive: true }); addEventListener('resize', pick);
+    requestAnimationFrame(pick);
+  });
+  /* Chương 01 trang chủ: gạch từng thứ giống nhau */
+  $$('[data-same]').forEach(vis => {
+    const root = vis.closest('[data-scrolly]'), rows = $$('.row', vis);
+    root.addEventListener('step', e => {
+      const i = e.detail.i;
+      vis.dataset.step = i;
+      rows.forEach((r, k) => r.classList.toggle('x', k <= i));
+    });
+  });
+  /* kịch bản video: lời thoại, mốc giây, thanh tiến độ trên điện thoại */
+  $$('[data-board]').forEach(root => {
+    const sub = $('[data-sub]', root), tc = $('[data-tc]', root), see = $('[data-see]', root), bar = $('.vbar', root);
+    root.addEventListener('step', e => {
+      const s = e.detail.el;
+      if (sub) { sub.classList.add('fade'); setTimeout(() => { sub.textContent = s.dataset.say; sub.classList.remove('fade'); }, 180); }
+      if (tc) tc.textContent = s.dataset.tc;
+      if (see) see.textContent = s.dataset.see || '';
+      if (bar) bar.style.setProperty('--p', (+s.dataset.end || 0) / (+root.dataset.len || 60));
+    });
+  });
+
+  /* ---------- nhật ký thí nghiệm: mốc đã qua sáng lên, mốc gần nhất nhấp nháy ---------- */
+  const logs = $$('.log-i[data-date]');
+  logs.forEach(el => el.classList.toggle('done', parse(el.dataset.date) <= today));
+  const lastDone = logs.filter(el => el.classList.contains('done')).pop();
+  if (lastDone) lastDone.className = 'log-i now';
+
+  /* ---------- biểu đồ chấm điểm có trọng số: tự cộng điểm từ bảng tiêu chí ---------- */
+  const PAL = ['#1f3bff', '#4f66ff', '#7f8fff', '#a9b4ff', '#111111', '#8a867e'];
+  $$('[data-score]').forEach(box => {
+    const crit = JSON.parse(box.dataset.crit);           // [[tên, trọng số %], ...]
+    const legend = $('.score-crit', box), tip = $('.score-tip', box), rows = $$('.srow', box);
+    const dec = n => n.toFixed(2).replace('.', ',');
+    legend.innerHTML = crit.map((c, i) => '<button type="button" aria-pressed="false" data-i="' + i + '" style="--c:' + PAL[i] + '"><i></i>' + c[0] + ' <small>' + c[1] + '%</small></button>').join('');
+    let best = -1, bestRow = null;
+    rows.forEach(r => {
+      const sc = r.dataset.s.split(',').map(Number);
+      let tot = 0;
+      $('.sbar', r).innerHTML = sc.map((s, i) => { tot += crit[i][1] / 100 * s; return '<i data-i="' + i + '" style="--w:' + (crit[i][1] * s / 5) + '%;--c:' + PAL[i] + ';--k:' + i + '" title="' + crit[i][0] + ': ' + s + '/5"></i>'; }).join('');
+      $('.tot', r).textContent = dec(tot);
+      r.dataset.tot = tot;
+      if (tot > best) { best = tot; bestRow = r; }
+    });
+    if (bestRow) bestRow.classList.add('win');
+    const pick = i => {
+      const btns = $$('button', legend), same = i !== null && btns[i].getAttribute('aria-pressed') === 'true';
+      btns.forEach((b, k) => b.setAttribute('aria-pressed', !same && k === i ? 'true' : 'false'));
+      box.classList.toggle('hl', i !== null && !same);
+      $$('.sbar i', box).forEach(seg => seg.classList.toggle('on', +seg.dataset.i === i));
+      if (i === null || same) { tip.innerHTML = tip.dataset.def; return; }
+      tip.innerHTML = '<b>' + crit[i][0] + '</b> (trọng số ' + crit[i][1] + '%): ' + rows.map(r => $('.nm', r).firstChild.textContent.trim() + ' ' + r.dataset.s.split(',')[i] + '/5').join(' · ');
+    };
+    tip.dataset.def = tip.innerHTML;
+    legend.addEventListener('click', e => { const b = e.target.closest('button'); if (b) pick(+b.dataset.i); });
+  });
+
+  /* ---------- phễu tính ngược: mục tiêu sản phẩm, tỷ lệ bấm, tỷ lệ mua ---------- */
+  $$('[data-funnel]').forEach(box => {
+    const inp = k => $('[data-f="' + k + '"]', box), out = k => $('[data-o="' + k + '"]', box);
+    const pct = v => (+v).toLocaleString('vi-VN', { maximumFractionDigits: 1 }) + '%';
+    const calc = () => {
+      const goal = +inp('goal').value, ctr = +inp('ctr').value / 100, cvr = +inp('cvr').value / 100, vids = +box.dataset.videos || 60;
+      const clicks = goal / cvr, views = clicks / ctr;
+      out('goal').textContent = fmt(goal); out('ctr').textContent = pct(ctr * 100); out('cvr').textContent = pct(cvr * 100);
+      out('views').textContent = fmt(Math.round(views)); out('clicks').textContent = fmt(Math.round(clicks)); out('orders').textContent = fmt(goal);
+      out('per').textContent = fmt(Math.round(views / vids));
+      const w = v => Math.max(34, Math.min(100, 34 + 66 * Math.log10(v) / Math.log10(views))) + '%';
+      $$('.fstep', box).forEach((s, i) => s.style.setProperty('--w', ['100%', w(clicks), w(goal)][i]));
+    };
+    $$('input', box).forEach(i => i.addEventListener('input', calc));
+    calc();
+  });
+
+  /* ---------- ngân hàng câu mở đầu: đổi câu mỗi vài giây ---------- */
+  $$('[data-hooks]').forEach(box => {
+    const q = $('q', box), list = JSON.parse(box.dataset.hooks);
+    let i = 0;
+    if (reduce || SHOT) return;
+    setInterval(() => {
+      if (box.getBoundingClientRect().bottom < 0 || box.getBoundingClientRect().top > innerHeight) return;
+      q.classList.add('out');
+      setTimeout(() => { i = (i + 1) % list.length; q.textContent = list[i]; q.classList.remove('out'); }, 400);
+    }, 3800);
+  });
+
   /* ---------- preview helper (?to=id | ?y=px | ?p=story progress) for screenshots ---------- */
   if (SHOT) addEventListener('load', () => setTimeout(() => {
     let y = +Q.get('y') || 0;

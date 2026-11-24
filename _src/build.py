@@ -25,12 +25,15 @@ DOMAIN = "feba.id.vn"
 
 PAGES = [
     # file, url path, title, description, nav key, uses 3D, images loaded eagerly (above the fold)
-    ("index.html", "/", "FEBA · Đội thi Kinh doanh số 2026", "FEBA: bốn sinh viên Kinh tế số, Học viện Chính sách và Phát triển, vận hành kênh TIỆN LAB trên TikTok Shop Affiliate. Bán bằng nội dung. Quyết bằng dữ liệu.", "team", False, 4),
-    ("san-pham.html", "/san-pham", "Tăm nước B-02 PRO · FEBA", "Tăm nước không dây Magic B-02 PRO: bình 200 ml, 20-120 psi, IPX7, pin 1.500 mAh, 4 đầu tăm xoay 360°. Cuộn để mở từng lớp bằng mô hình 3D.", "product", True, 1),
-    ("chien-dich.html", "/chien-dich", "Chiến dịch TIỆN LAB · FEBA", "Chiến dịch TIỆN LAB trên TikTok Shop Affiliate: quy trình, khách hàng, năm trụ cột nội dung, nhịp đăng, lộ trình 01/10 đến 05/12/2026 và mục tiêu.", "campaign", False, 1),
+    ("index.html", "/", "FEBA · Đội thi Kinh doanh số 2026", "Cùng sản phẩm, cùng giá, khác nhau ở cách kể. FEBA là bốn sinh viên Học viện Chính sách và Phát triển vận hành TIỆN LAB: test thật đồ dùng Magic rồi kể lại trên TikTok.", "team", False, 4),
+    ("san-pham.html", "/san-pham", "Tăm nước B-02 PRO · FEBA", "Mẫu thử số 01 của TIỆN LAB: vì sao chọn tăm nước Magic B-02 PRO, mở từng lớp bằng mô hình 3D, đo áp lực 20-120 psi, IPX7, pin 1.500 mAh, 4 đầu tăm.", "product", True, 1),
+    ("chien-dich.html", "/chien-dich", "Chiến dịch TIỆN LAB · FEBA", "Cách TIỆN LAB kể chuyện trên TikTok: hai nhân vật khách hàng, kịch bản 60 giây, năm trụ cột nội dung, phễu tính ngược từ 200 sản phẩm, lộ trình và luật họp tuần.", "campaign", False, 1),
 ]
 NAV = [("team", "/", "Đội thi"), ("product", "/san-pham", "Sản phẩm"), ("campaign", "/chien-dich", "Chiến dịch")]
-CTA = {"team": ("/san-pham", "Mô hình 3D", "btn-ink"), "product": ("/chien-dich", "Cách đội bán", "btn-blue"), "campaign": ("#lo-trinh", "Lộ trình", "btn-ink")}
+STORE = "https://feba.myharavan.com"
+TIKTOK = "https://www.tiktok.com/@feba.shop"
+# nút nổi bật trên đầu trang: mọi trang đều dẫn về cửa hàng (kênh ra đơn chính)
+CTA = {"team": (STORE, "Vào cửa hàng", "btn-blue"), "product": (STORE + "/products/tam-nuoc-magic-b-02-pro", "Đặt B-02 PRO", "btn-blue"), "campaign": (STORE, "Vào cửa hàng", "btn-blue")}
 # old addresses (site used to live under /website/) keep working through small redirect pages
 OLD = {"website/index.html": "/", "website/san-pham.html": "/san-pham", "website/chien-dich.html": "/chien-dich"}
 FAVICON = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="12" fill="#1f3bff"/><path d="M20 14h26v9H30v7h14v9H30v11H20z" fill="#fff"/><circle cx="48" cy="46" r="5" fill="#fff"/></svg>'
@@ -71,7 +74,8 @@ def clean_links(html):
 
 def header(active):
     links = "\n".join('      <a href="%s"%s>%s</a>' % (href, ' aria-current="page"' if key == active else "", label) for key, href, label in NAV)
-    href, label, cls = CTA[active] if active in CTA else ("/", "Trang chủ", "btn-ink")
+    href, label, cls = CTA[active] if active in CTA else (STORE, "Vào cửa hàng", "btn-blue")
+    ext = ' target="_blank" rel="noopener"' if href.startswith("http") else ""
     return f'''<a class="skip" href="#noi-dung">Bỏ qua tới nội dung</a>
 <header class="hdr" id="hdr">
   <nav aria-label="Điều hướng chính">
@@ -79,7 +83,7 @@ def header(active):
     <div class="navlinks" id="navlinks">
 {links}
     </div>
-    <a class="btn {cls}" href="{href}">{label}</a>
+    <a class="btn {cls}" href="{href}"{ext}>{label}</a>
     <button class="menu-btn" aria-label="Mở menu" aria-expanded="false" aria-controls="navlinks"><i></i></button>
   </nav>
   <div class="prog" id="prog"></div>
@@ -88,6 +92,7 @@ def header(active):
 
 def footer():
     links = "".join('<a href="%s">%s</a>' % (href, label) for _, href, label in NAV)
+    links += '<a href="%s" target="_blank" rel="noopener">Cửa hàng</a><a href="%s" target="_blank" rel="noopener">TikTok</a>' % (STORE, TIKTOK)
     return f'''<footer>
   <div class="wrap">
     <span><b>FEBA</b> · Cuộc thi Sinh viên Kinh doanh số 2026 · Học viện Chính sách và Phát triển</span>
