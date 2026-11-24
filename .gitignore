@@ -5,6 +5,9 @@
 !/README.md
 !/_src/
 !/docs/
+!/haravan/
 __pycache__/
 node_modules/
 _src/video/out/
+haravan/*.zip
+haravan/_favicon.png

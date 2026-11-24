@@ -1,0 +1,34 @@
+{% paginate search.results by 24 %}
+<section class="page-hd">
+  <div class="wrap">
+    <nav class="crumbs" aria-label="Đường dẫn"><a href="/">Trang chủ</a><span>/</span><span aria-current="page">Tìm kiếm</span></nav>
+    <h1 class="h1">{% if search.performed %}Kết quả cho "{{ search.terms | escape }}"{% else %}Tìm kiếm{% endif %}</h1>
+    <form action="/search" class="search-big" role="search"><input type="hidden" name="type" value="product" /><input type="search" name="q" value="{{ search.terms | escape }}" placeholder="Tìm sản phẩm, ví dụ: tăm nước" aria-label="Từ khoá" /><button class="btn btn-blue" type="submit">{% assign icon = 'search' %}{% include 'icon' %}Tìm</button></form>
+    {% if settings.search_suggest != blank %}
+    <div class="srch-tags inline">
+      <span class="srch-lab">Gợi ý</span>
+      {% assign words = settings.search_suggest | split: ',' %}{% for w in words %}{% assign w = w | strip %}{% if w != blank %}<a class="pill" href="/search?type=product&q={{ w | escape | replace: ' ', '+' }}">{{ w }}</a>{% endif %}{% endfor %}
+    </div>
+    {% endif %}
+  </div>
+</section>
+<section class="sec tight">
+  <div class="wrap">
+    {% if search.performed %}
+      {% if search.results == empty %}
+      <div class="empty-cart">
+        <span class="empty-ic">{% assign icon = 'search' %}{% include 'icon' %}</span>
+        <p>Không tìm thấy kết quả cho "{{ search.terms | escape }}". Thử từ khoá ngắn hơn hoặc xem các nhóm dưới đây.</p>
+        <a class="btn btn-blue" href="/collections/all">Xem tất cả sản phẩm</a>
+      </div>
+      {% else %}
+      <p class="mute result-n">{{ search.results_count }} kết quả</p>
+      <div class="grid-p">
+        {% for item in search.results %}{% if item.price %}{% assign product = item %}{% include 'product-card' %}{% else %}<article class="card"><div class="card-bd"><h3 class="card-t"><a href="{{ item.url }}">{{ item.title }}</a></h3></div></article>{% endif %}{% endfor %}
+      </div>
+      {% include 'pagination' %}
+      {% endif %}
+    {% endif %}
+  </div>
+</section>
+{% endpaginate %}

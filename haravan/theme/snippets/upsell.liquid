@@ -1,0 +1,21 @@
+{% comment %}Gợi ý mua kèm (giỏ trượt và trang giỏ hàng). Nhóm lấy từ Thiết lập theme > 8. theme.js ẩn món đã có trong giỏ, chỉ hiện 3 món.{% endcomment %}
+{% assign uc = collections.all %}
+{% if settings.upsell_collection != blank %}{% assign uh = settings.upsell_collection %}{% assign uc2 = collections[uh] %}{% if uc2.products_count > 0 %}{% assign uc = uc2 %}{% endif %}{% endif %}
+<div class="ups" data-upsell hidden>
+  <p class="ups-h">Thường mua kèm</p>
+  <div class="ups-list">
+    {% assign n = 0 %}
+    {% for p in uc.products %}{% if p.available and n < 8 %}{% assign n = n | plus: 1 %}
+    {% assign pv = p.variants.first %}
+    <div class="ups-i" data-upsell-item="{{ p.id }}">
+      <a href="{{ p.url }}" class="ups-img">{% if p.featured_image %}<img src="{{ p.featured_image.src | product_img_url: 'small' }}" alt="" loading="lazy" width="64" height="64" />{% endif %}</a>
+      <div class="ups-bd"><a href="{{ p.url }}">{{ p.title }}</a><b>{{ p.price | money }}</b></div>
+      {% if p.variants.size == 1 %}
+      <button type="button" class="ups-add" data-quick-add="{{ pv.id }}" aria-label="Thêm {{ p.title | escape }} vào giỏ">{% assign icon = 'plus' %}{% include 'icon' %}</button>
+      {% else %}
+      <button type="button" class="ups-add" data-quick-view="{{ p.handle }}" aria-label="Chọn phân loại {{ p.title | escape }}">{% assign icon = 'plus' %}{% include 'icon' %}</button>
+      {% endif %}
+    </div>
+    {% endif %}{% endfor %}
+  </div>
+</div>

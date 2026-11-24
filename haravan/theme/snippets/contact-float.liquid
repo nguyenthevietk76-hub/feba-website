@@ -1,0 +1,11 @@
+{% comment %}Nút liên hệ nổi góc phải: Zalo, Messenger, hotline (Thiết lập theme > 7 và 9). Không có link nào thì không hiện.{% endcomment %}
+{% if settings.zalo_link != blank or settings.messenger_link != blank or settings.hotline != blank %}
+<div class="cfloat" data-cfloat>
+  <div class="cfloat-list" id="cfloat-list" hidden>
+    {% if settings.zalo_link != blank %}<a href="{{ settings.zalo_link }}" target="_blank" rel="noopener" class="cf-zalo">{% assign icon = 'zalo' %}{% include 'icon' %}<span>Nhắn Zalo</span></a>{% endif %}
+    {% if settings.messenger_link != blank %}<a href="{{ settings.messenger_link }}" target="_blank" rel="noopener" class="cf-msg">{% assign icon = 'messenger' %}{% include 'icon' %}<span>Messenger</span></a>{% endif %}
+    {% if settings.hotline != blank %}<a href="tel:{{ settings.hotline | remove: ' ' | remove: '.' }}" class="cf-tel">{% assign icon = 'phone' %}{% include 'icon' %}<span>{{ settings.hotline }}</span></a>{% endif %}
+  </div>
+  <button type="button" class="cfloat-btn" aria-expanded="false" aria-controls="cfloat-list" aria-label="Liên hệ cửa hàng">{% assign icon = 'chat' %}{% include 'icon' %}<span>Hỏi {{ settings.brand_text | default: shop.name }}</span></button>
+</div>
+{% endif %}

@@ -1,0 +1,8 @@
+{% comment %}Mã giảm giá đang chạy, khách bấm để chép rồi dán ở bước thanh toán. Mã tạo trong Haravan > Khuyến mãi, điền ở Thiết lập theme > 8.{% endcomment %}
+{% if settings.promo_code != blank %}
+<button type="button" class="promo" data-copy="{{ settings.promo_code | strip | escape }}">
+  {% assign icon = 'tag' %}{% include 'icon' %}
+  <span class="promo-bd"><b>{{ settings.promo_code | strip }}</b>{% if settings.promo_text != blank %}<span>{{ settings.promo_text }}</span>{% endif %}</span>
+  <span class="promo-cp" data-copy-label>Chép mã</span>
+</button>
+{% endif %}

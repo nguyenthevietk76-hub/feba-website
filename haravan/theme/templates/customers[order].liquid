@@ -1,0 +1,108 @@
+<section class="sec tight"><div class="wrap narrow customer">
+<div id="layout-page">
+	<div class="header-page">
+		<h1>Đơn hàng: {{ order.name }}, đặt lúc <span class="order_date">&mdash; {{ order.created_at | date: "%d %m, %Y %I:%M%p" }}</span></h1>
+		{% if order.cancelled %}
+		<div id="order_cancelled" class="flash notice col-sm-12">
+			<h5 id="order_cancelled_title">Hủy đơn hàng <span>{{ order.cancelled_at | date: "%B %d, %Y %I:%M%p" }}</span></h5>
+			<span>{{ order.cancel_reason }}</span>
+		</div>
+		{% endif %}
+	</div>
+	<div class="col-xs-12">
+		<a href="/account" id='return_to_store'>Quay lại trang tài khoản </a>
+	</div>
+	<div class="col-md-12 content-page">
+		<div id="order_payment" class="col-md-6 col-sm-6">
+			<div class="row">
+				<h3 class="order_section_title">Địa chỉ nhận thanh toán</h3>
+				<p><span>Tình trạng thanh toán:</span> <span class="status_{{ order.financial_status }}">{{ order.financial_status }}</span></p>
+				<div class="address">
+					<p>{{ order.billing_address.name }}</p>
+					<p>{{ order.billing_address.company }}</p>
+					<p>{{ order.billing_address.address1 }}</p>
+					<p>{{ order.billing_address.address2 }}</p>
+					<p>{{ order.billing_address.city }} {{ order.billing_address.province }}</p>
+					<p>{{ order.billing_address.country }}</p>
+					<p>{{ order.billing_address.phone }}</p>
+				</div>
+			</div>
+		</div>
+		{% if order.shipping_address %}
+		<div id="order_shipping" class="col-md-6 col-sm-6">
+			<div class="row">
+				<h3 class="order_section_title">Địa chỉ gửi hàng</h3>
+				<p><span>Vận chuyển:</span> <span class="status_{{ order.fulfillment_status }}">{{ order.fulfillment_status }}</span></p>
+				<div class="address">
+					<p>{{ order.shipping_address.name }}</p>
+					<p>{{ order.shipping_address.company }}</p>
+					<p>{{ order.shipping_address.address1 }}</p>
+					<p>{{ order.shipping_address.address2 }}</p>
+					<p>{{ order.shipping_address.city }} {{ order.shipping_address.province }}</p>
+					<p>{{ order.shipping_address.country }} </p>
+					<p>{{ order.shipping_address.phone }}</p>
+				</div>
+			</div>
+		</div>
+		{% endif %}
+	</div>
+	<div class="col-md-12 content-page">
+		<table id="order_details">
+			<tr height="40px">
+				<th class="">Sản phẩm</th>
+				<th class="text-center">Mã sản phẩm</th>
+				<th class="text-center">Giá</th>
+				<th class="text-center">Số lượng</th>
+				<th class="total text-center">Tổng cộng</th>
+			</tr>
+			{% for line_item in order.line_items %}
+			<tr height="40px" id="{{ line_item.id }}" class="{% cycle 'odd', 'even' %}">
+				<td class="" style="max-width:300px">
+					{{ line_item.title | link_to: line_item.url }} <br/> 
+					{%unless line_item.variant.title contains 'Default' %}
+					{{line_item.variant.title}}
+					{%endunless%}
+					{% if line_item.fulfillment %}
+					<div>
+						Fulfilled {{ line_item.fulfillment.created_at | date: "%b %d" }}
+						{% if line_item.fulfillment.tracking_number %}
+						<a href="{{ line_item.fulfillment.tracking_url }}">{{ line_item.fulfillment.tracking_company }} #{{ line_item.fulfillment.tracking_number}}</a>
+						{% endif %}
+					</div>
+					{% endif %}
+				</td>
+				<td class="sku text-center">{{ line_item.sku }}</td>
+				<td class="money text-center">{{ line_item.price | money }}</td>
+				<td class="quantity center text-center">{{ line_item.quantity }}</td>
+				<td class="total money text-center">{{ line_item.quantity | times: line_item.price | money }}</td>
+			</tr>
+			{% endfor %}
+			<tr height="40px" class="order_summary">
+				<td class="text-right" colspan="4"><b>Giá sản phẩm</b></td>
+				<td class="total money text-right"><b>{{ order.subtotal_price | money }}</b></td>
+			</tr>   
+
+			{% for shipping_method in order.shipping_methods %}
+			<tr height="40px" class="order_summary ">
+				<td class="text-right" colspan="4"><b>{{ shipping_method.title }}</b></td>
+				<td class="total money text-right"><b>{{ shipping_method.price | money }}</b></td>
+			</tr>
+			{% endfor %}
+
+			{% for tax_line in order.tax_lines %}
+			<tr height="40px" class="order_summary ">
+				<td class="text-right" colspan="4"><b>{{ tax_line.title }} {{ tax_line.rate | times: 100 }}</b>%</td>
+				<td class="total money text-right"><b>{{ tax_line.price | money }}</b></td>
+			</tr>
+			{% endfor %}    
+
+			<tr  height="40px"class="order_summary order_total">
+				<td class="text-right" colspan="4"><b>Tổng tiền</b></td>
+				<td class="total money text-right"><b>{{ order.total_price | money }} {{ order.currency }}</b></td>
+			</tr>    
+		</table>
+	</div>
+
+
+</div>
+</div></section>

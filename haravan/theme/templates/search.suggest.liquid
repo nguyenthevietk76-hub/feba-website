@@ -1,0 +1,14 @@
+{% layout none %}
+{% comment %}Gợi ý tìm kiếm cho ô tìm nhanh. Gọi: /search?type=product&view=suggest&q=... Trả về đoạn HTML, theme.js chèn vào ô gợi ý.{% endcomment %}
+{% if search.performed %}
+{% assign shown = 0 %}
+{% for item in search.results %}{% if item.price and shown < 6 %}{% assign shown = shown | plus: 1 %}
+<a class="sg" href="{{ item.url }}" role="option" data-sg>
+  <span class="sg-img">{% if item.featured_image %}<img src="{{ item.featured_image.src | product_img_url: 'small' }}" alt="" width="56" height="56" />{% endif %}</span>
+  <span class="sg-t">{{ item.title }}</span>
+  <span class="sg-p"><b>{{ item.price | money }}</b>{% if item.compare_at_price > item.price %}<del>{{ item.compare_at_price | money }}</del>{% endif %}</span>
+</a>
+{% endif %}{% endfor %}
+{% if shown == 0 %}<p class="sg-none">Không thấy sản phẩm khớp "{{ search.terms | escape }}". Thử từ khoá ngắn hơn, ví dụ "bình" hoặc "quạt".</p>
+{% else %}<a class="sg-all" href="/search?type=product&q={{ search.terms | escape | replace: ' ', '+' }}">Xem tất cả {{ search.results_count }} kết quả {% assign icon = 'arrow' %}{% include 'icon' %}</a>{% endif %}
+{% endif %}

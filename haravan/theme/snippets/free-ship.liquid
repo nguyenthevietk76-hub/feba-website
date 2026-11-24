@@ -1,0 +1,7 @@
+{% comment %}Thanh tiến độ miễn phí giao hàng. Mức lấy từ Thiết lập theme > 8 (đồng). theme.js cập nhật lại khi giỏ hàng đổi.{% endcomment %}
+{% if settings.free_ship_threshold != blank %}
+<div class="fship" data-fship="{{ settings.free_ship_threshold | remove: '.' | remove: ',' | remove: ' ' }}">
+  <p class="fship-t" data-fship-text>{% assign icon = 'truck' %}{% include 'icon' %}<span>{% if settings.free_ship_note != blank %}{{ settings.free_ship_note }}{% else %}Đơn hàng được miễn phí giao hàng.{% endif %}</span></p>
+  <div class="fship-bar" aria-hidden="true"><i data-fship-bar></i></div>
+</div>
+{% endif %}

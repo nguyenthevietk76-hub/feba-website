@@ -1,0 +1,134 @@
+<style>
+  .theme-settings-form input[type=text], .theme-settings-form textarea { width: 100%; }
+  td:first-child, th > label { font-weight: bold !important; }
+  th > p, td > p { font-weight: 100 !important; margin: 0; white-space: normal; }
+  .hd { font-size: 16px; padding: 10px; margin: 0; }
+</style>
+<p class="hd">Giao diện FEBA. Sửa chữ và chọn nhóm sản phẩm ở các mục dưới, rồi bấm Lưu. Mọi chữ hiển thị trên trang chủ đều sửa được tại đây, không cần sửa code.</p>
+
+<fieldset>
+  <legend>1. Thương hiệu</legend>
+  <table>
+    <tr><th><label for="brand_text">Tên hiển thị trên đầu trang</label><p>Ví dụ: TIỆN LAB</p></th><td><input type="text" id="brand_text" name="brand_text" /></td></tr>
+    <tr><th><label for="use_logo">Dùng ảnh logo thay chữ</label></th><td><input type="checkbox" id="use_logo" name="use_logo" value="1" /></td></tr>
+    <tr><th><label>Ảnh logo</label><p>PNG nền trong, cao 80 px</p></th><td><input type="file" name="logo.png" data-max-width="400" data-max-height="120" /></td></tr>
+    <tr><th><label>Favicon</label><p>PNG vuông 64 x 64 px</p></th><td><input type="file" name="favicon.png" data-max-width="64" data-max-height="64" /></td></tr>
+    <tr><th><label>Ảnh khi chia sẻ link</label><p>JPG 1200 x 630 px</p></th><td><input type="file" name="share.jpg" data-max-width="1200" data-max-height="630" /></td></tr>
+  </table>
+</fieldset>
+
+<fieldset>
+  <legend>2. Thanh thông báo</legend>
+  <table>
+    <tr><th><label for="announce_show">Hiện thanh thông báo</label></th><td><input type="checkbox" id="announce_show" name="announce_show" value="1" /></td></tr>
+    <tr><th><label for="announce_text">Nội dung</label></th><td><input type="text" id="announce_text" name="announce_text" /></td></tr>
+    <tr><th><label for="announce_link">Liên kết (không bắt buộc)</label></th><td><input type="text" id="announce_link" name="announce_link" /></td></tr>
+  </table>
+</fieldset>
+
+<fieldset>
+  <legend>3. Trang chủ: phần mở đầu</legend>
+  <table>
+    <tr><th><label for="main_collection">Nhóm chứa sản phẩm chủ lực</label><p>Sản phẩm đầu tiên của nhóm này hiện ở phần mở đầu và phần "Sản phẩm chủ lực"</p></th><td><select id="main_collection" name="main_collection" class="collection"></select></td></tr>
+    <tr><th><label for="hero_kicker">Dòng nhỏ phía trên</label></th><td><input type="text" id="hero_kicker" name="hero_kicker" /></td></tr>
+    <tr><th><label for="hero_title">Tiêu đề dòng 1</label></th><td><input type="text" id="hero_title" name="hero_title" /></td></tr>
+    <tr><th><label for="hero_title_em">Tiêu đề dòng 2 (màu xanh)</label></th><td><input type="text" id="hero_title_em" name="hero_title_em" /></td></tr>
+    <tr><th><label for="hero_sub">Mô tả ngắn</label></th><td><textarea id="hero_sub" name="hero_sub" rows="3"></textarea></td></tr>
+    <tr><th><label for="hero_btn">Chữ trên nút chính</label></th><td><input type="text" id="hero_btn" name="hero_btn" /></td></tr>
+    <tr><th><label for="use_hero_image">Dùng ảnh riêng cho phần mở đầu</label><p>Bỏ chọn thì dùng ảnh của sản phẩm chủ lực</p></th><td><input type="checkbox" id="use_hero_image" name="use_hero_image" value="1" /></td></tr>
+    <tr><th><label>Ảnh phần mở đầu</label><p>PNG hoặc JPG nền trắng, dọc, cao 1200 px</p></th><td><input type="file" name="hero.jpg" data-max-width="1200" data-max-height="1400" /></td></tr>
+    <tr><th><label for="hero_chip_1">Ô thông số 1</label></th><td><input type="text" id="hero_chip_1" name="hero_chip_1" /><input type="text" name="hero_chip_1_sub" /></td></tr>
+    <tr><th><label for="hero_chip_2">Ô thông số 2</label></th><td><input type="text" id="hero_chip_2" name="hero_chip_2" /><input type="text" name="hero_chip_2_sub" /></td></tr>
+    <tr><th><label for="hero_chip_3">Ô thông số 3</label></th><td><input type="text" id="hero_chip_3" name="hero_chip_3" /><input type="text" name="hero_chip_3_sub" /></td></tr>
+    <tr><th><label for="hero_chip_4">Ô thông số 4</label></th><td><input type="text" id="hero_chip_4" name="hero_chip_4" /><input type="text" name="hero_chip_4_sub" /></td></tr>
+  </table>
+</fieldset>
+
+<fieldset>
+  <legend>4. Cam kết (hiện ở trang chủ, trang sản phẩm, giỏ hàng)</legend>
+  <p>Chỉ ghi cam kết đúng với chính sách giao hàng và đổi trả thật của cửa hàng.</p>
+  <table>
+    <tr><th><label>Cam kết 1</label></th><td><input type="text" name="trust_1" /><input type="text" name="trust_1_sub" /></td></tr>
+    <tr><th><label>Cam kết 2</label></th><td><input type="text" name="trust_2" /><input type="text" name="trust_2_sub" /></td></tr>
+    <tr><th><label>Cam kết 3</label></th><td><input type="text" name="trust_3" /><input type="text" name="trust_3_sub" /></td></tr>
+    <tr><th><label>Cam kết 4</label></th><td><input type="text" name="trust_4" /><input type="text" name="trust_4_sub" /></td></tr>
+    <tr><th><label for="tested_note">Ghi chú "đã test" trên trang sản phẩm</label></th><td><textarea id="tested_note" name="tested_note" rows="2"></textarea></td></tr>
+    <tr><th><label for="free_ship_note">Ghi chú trong giỏ hàng</label><p>Ví dụ ưu đãi giao hàng, để trống nếu không có</p></th><td><input type="text" id="free_ship_note" name="free_ship_note" /></td></tr>
+  </table>
+</fieldset>
+
+<fieldset>
+  <legend>5. Trang chủ: câu chuyện và nhóm sản phẩm</legend>
+  <table>
+    <tr><th><label for="story_lead">Câu mở phần "Test thật"</label></th><td><textarea id="story_lead" name="story_lead" rows="3"></textarea></td></tr>
+    <tr><th><label>Tình huống 1</label><p>Chọn nhóm, đặt tên và một câu mô tả</p></th><td><select name="moment_1_collection" class="collection"></select><input type="text" name="moment_1_title" /><input type="text" name="moment_1_text" /></td></tr>
+    <tr><th><label>Tình huống 2</label></th><td><select name="moment_2_collection" class="collection"></select><input type="text" name="moment_2_title" /><input type="text" name="moment_2_text" /></td></tr>
+    <tr><th><label>Tình huống 3</label></th><td><select name="moment_3_collection" class="collection"></select><input type="text" name="moment_3_title" /><input type="text" name="moment_3_text" /></td></tr>
+    <tr><th><label>Điểm nổi bật của sản phẩm chủ lực</label></th><td><input type="text" name="spot_hl_1" /><input type="text" name="spot_hl_2" /><input type="text" name="spot_hl_3" /><input type="text" name="spot_hl_4" /></td></tr>
+    <tr><th><label>Lưới sản phẩm</label><p>Nhóm hiển thị (để trống thì hiện tất cả) và tiêu đề</p></th><td><select name="grid_collection" class="collection"></select><input type="text" name="grid_title" /></td></tr>
+  </table>
+</fieldset>
+
+<fieldset>
+  <legend>6. TikTok, hỏi đáp, đội thi</legend>
+  <table>
+    <tr><th><label for="tiktok_link">Link kênh TikTok</label><p>Để trống thì ẩn khối TikTok</p></th><td><input type="text" id="tiktok_link" name="tiktok_link" /></td></tr>
+    <tr><th><label>Tiêu đề và mô tả khối TikTok</label></th><td><input type="text" name="tiktok_title" /><input type="text" name="tiktok_text" /></td></tr>
+    <tr><th><label>Hỏi đáp 1</label></th><td><input type="text" name="faq_1_q" /><textarea name="faq_1_a" rows="2"></textarea></td></tr>
+    <tr><th><label>Hỏi đáp 2</label></th><td><input type="text" name="faq_2_q" /><textarea name="faq_2_a" rows="2"></textarea></td></tr>
+    <tr><th><label>Hỏi đáp 3</label></th><td><input type="text" name="faq_3_q" /><textarea name="faq_3_a" rows="2"></textarea></td></tr>
+    <tr><th><label>Hỏi đáp 4</label></th><td><input type="text" name="faq_4_q" /><textarea name="faq_4_a" rows="2"></textarea></td></tr>
+    <tr><th><label>Hỏi đáp 5</label></th><td><input type="text" name="faq_5_q" /><textarea name="faq_5_a" rows="2"></textarea></td></tr>
+    <tr><th><label>Dòng giới thiệu đội và link</label></th><td><input type="text" name="team_text" /><input type="text" name="team_link" /></td></tr>
+  </table>
+</fieldset>
+
+<fieldset>
+  <legend>7. Chân trang và liên hệ</legend>
+  <table>
+    <tr><th><label for="footer_about">Giới thiệu ngắn</label></th><td><textarea id="footer_about" name="footer_about" rows="3"></textarea></td></tr>
+    <tr><th><label>Menu cột "Mua sắm"</label></th><td><select name="footer_menu_1" class="linklist"></select></td></tr>
+    <tr><th><label>Menu cột "Hỗ trợ"</label></th><td><select name="footer_menu_2" class="linklist"></select></td></tr>
+    <tr><th><label>Hotline</label></th><td><input type="text" name="hotline" /></td></tr>
+    <tr><th><label>Email</label></th><td><input type="text" name="contact_email" /></td></tr>
+    <tr><th><label>Dòng cuối chân trang</label></th><td><input type="text" name="footer_note" /></td></tr>
+    <tr><th><label>Cách thanh toán hiện ở chân trang</label><p>Cách nhau bằng dấu phẩy, chỉ ghi cách cửa hàng thật sự nhận</p></th><td><input type="text" name="payment_methods" /></td></tr>
+  </table>
+</fieldset>
+
+<fieldset>
+  <legend>8. Vận hành: giao hàng, giỏ hàng, khuyến mãi</legend>
+  <p>Các con số ở đây hiện thẳng cho khách, chỉ ghi đúng chính sách thật của cửa hàng.</p>
+  <table>
+    <tr><th><label for="free_ship_threshold">Mức đơn được miễn phí giao (đồng)</label><p>0 = mọi đơn đều miễn phí. Để trống = không hiện thanh tiến độ. Ví dụ 500000</p></th><td><input type="text" id="free_ship_threshold" name="free_ship_threshold" /></td></tr>
+    <tr><th><label>Thời gian giao dự kiến (ngày)</label><p>Ít nhất và nhiều nhất, ví dụ 2 và 5. Để trống thì ẩn dòng "Dự kiến nhận hàng"</p></th><td><input type="text" name="ship_days_min" /><input type="text" name="ship_days_max" /></td></tr>
+    <tr><th><label for="ship_cutoff_hour">Giờ chốt gửi hàng trong ngày</label><p>Ví dụ 16: đặt trước 16 giờ thì gửi đi trong ngày, trang sản phẩm đếm ngược. Để trống thì ẩn</p></th><td><input type="text" id="ship_cutoff_hour" name="ship_cutoff_hour" /></td></tr>
+    <tr><th><label for="low_stock">Báo "Chỉ còn ... sản phẩm" khi tồn kho từ mức này trở xuống</label><p>Chỉ áp dụng cho sản phẩm có quản lý tồn kho trên Haravan. 0 = tắt</p></th><td><input type="text" id="low_stock" name="low_stock" /></td></tr>
+    <tr><th><label>Mã giảm giá đang chạy</label><p>Mã (đã tạo trong Haravan &gt; Khuyến mãi) và một câu mô tả. Hiện trong giỏ hàng, khách bấm để chép mã</p></th><td><input type="text" name="promo_code" /><input type="text" name="promo_text" /></td></tr>
+    <tr><th><label>Gợi ý mua kèm trong giỏ hàng</label><p>Chọn nhóm sản phẩm. Để trống thì gợi ý từ tất cả sản phẩm</p></th><td><select name="upsell_collection" class="collection"></select></td></tr>
+    <tr><th><label>Chính sách giao hàng (tab trên trang sản phẩm)</label></th><td><textarea name="ship_policy" rows="3"></textarea></td></tr>
+    <tr><th><label>Chính sách đổi trả, bảo hành (tab trên trang sản phẩm)</label></th><td><textarea name="return_policy" rows="3"></textarea></td></tr>
+    <tr><th><label>Từ khoá gợi ý khi tìm kiếm</label><p>Cách nhau bằng dấu phẩy</p></th><td><input type="text" name="search_suggest" /></td></tr>
+  </table>
+</fieldset>
+
+<fieldset>
+  <legend>9. Nút liên hệ nổi</legend>
+  <p>Hiện ở góc phải màn hình khi có ít nhất một liên kết. Hotline lấy từ mục 7.</p>
+  <table>
+    <tr><th><label for="zalo_link">Link Zalo</label><p>Ví dụ https://zalo.me/09xxxxxxxx</p></th><td><input type="text" id="zalo_link" name="zalo_link" /></td></tr>
+    <tr><th><label for="messenger_link">Link Messenger</label><p>Ví dụ https://m.me/tenfanpage</p></th><td><input type="text" id="messenger_link" name="messenger_link" /></td></tr>
+  </table>
+</fieldset>
+
+<fieldset>
+  <legend>10. Đo lường và nguồn đơn</legend>
+  <p>Điền mã nào thì tải mã đó. Nếu đã gắn mã trong Haravan &gt; Cấu hình thì để trống ở đây để không đếm hai lần.</p>
+  <table>
+    <tr><th><label for="tiktok_pixel_id">TikTok Pixel ID</label><p>TikTok Ads Manager &gt; Assets &gt; Events</p></th><td><input type="text" id="tiktok_pixel_id" name="tiktok_pixel_id" /></td></tr>
+    <tr><th><label for="ga4_id">Google Analytics 4 (G-XXXXXXX)</label></th><td><input type="text" id="ga4_id" name="ga4_id" /></td></tr>
+    <tr><th><label for="meta_pixel_id">Meta Pixel ID</label></th><td><input type="text" id="meta_pixel_id" name="meta_pixel_id" /></td></tr>
+    <tr><th><label for="track_source">Ghi nguồn khách vào đơn hàng</label><p>Lấy utm_source, utm_campaign, utm_content (hoặc ?ref=) từ link khách bấm vào, lưu thành Thuộc tính đơn hàng. Xem trong Haravan &gt; Đơn hàng &gt; chi tiết đơn</p></th><td><input type="checkbox" id="track_source" name="track_source" value="1" /></td></tr>
+    <tr><th><label for="load_jquery">Tải jQuery trên mọi trang</label><p>Bật nếu có ứng dụng Haravan cần jQuery. Giao diện FEBA không cần, tắt đi trang tải nhanh hơn</p></th><td><input type="checkbox" id="load_jquery" name="load_jquery" value="1" /></td></tr>
+  </table>
+</fieldset>

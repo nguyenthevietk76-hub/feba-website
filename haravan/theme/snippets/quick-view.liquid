@@ -1,0 +1,18 @@
+{% comment %}Khung xem nhanh: bấm "Chọn" trên thẻ sản phẩm có nhiều phân loại, theme.js lấy /products/<handle>.js và dựng nội dung{% endcomment %}
+<div class="qv" id="qv" hidden>
+  <div class="qv-bg" data-qv-close></div>
+  <div class="qv-panel" role="dialog" aria-modal="true" aria-labelledby="qv-title">
+    <button type="button" class="icon-btn qv-x" data-qv-close aria-label="Đóng">{% assign icon = 'close' %}{% include 'icon' %}</button>
+    <div class="qv-body" data-qv-body><div class="qv-load"><span class="spin"></span></div></div>
+  </div>
+</div>
+
+<div class="lb" id="lb" hidden>
+  <button type="button" class="icon-btn lb-x" data-lb-close aria-label="Đóng ảnh">{% assign icon = 'close' %}{% include 'icon' %}</button>
+  <button type="button" class="icon-btn lb-nav lb-prev" data-lb-step="-1" aria-label="Ảnh trước">{% assign icon = 'chev-l' %}{% include 'icon' %}</button>
+  <img data-lb-img alt="" />
+  <button type="button" class="icon-btn lb-nav lb-next" data-lb-step="1" aria-label="Ảnh sau">{% assign icon = 'chev-r' %}{% include 'icon' %}</button>
+  <span class="lb-n" data-lb-n></span>
+</div>
+
+<div class="toasts" id="toasts" role="status" aria-live="polite"></div>

@@ -1,0 +1,56 @@
+{% comment %}Nhóm sản phẩm: lọc (loại, mức giá, còn hàng) chạy ngay trên trang bằng theme.js, sắp xếp do Haravan xử lý (?sort_by=).{% endcomment %}
+{% paginate collection.products by 48 %}
+{% if collection.handle == 'all' %}{% assign ctitle = 'Tất cả sản phẩm' %}{% else %}{% assign ctitle = collection.title %}{% endif %}
+<section class="page-hd col-hd">
+  <div class="wrap">
+    <nav class="crumbs" aria-label="Đường dẫn"><a href="/">Trang chủ</a><span>/</span>{% if collection.handle != 'all' %}<a href="/collections/all">Sản phẩm</a><span>/</span>{% endif %}<span aria-current="page">{{ ctitle }}</span></nav>
+    <h1 class="h1">{{ ctitle }}</h1>
+    {% if collection.description != blank %}<div class="lead rte">{{ collection.description }}</div>{% endif %}
+    <nav class="col-nav" aria-label="Nhóm sản phẩm">
+      <a href="/collections/all"{% if collection.handle == 'all' %} aria-current="page"{% endif %}>Tất cả</a>
+      {% for c in collections %}{% if c.handle != 'all' and c.handle != 'frontpage' and c.products_count > 0 %}
+      <a href="{{ c.url }}"{% if c.handle == collection.handle %} aria-current="page"{% endif %}>{{ c.title }} <small>{{ c.products_count }}</small></a>
+      {% endif %}{% endfor %}
+    </nav>
+  </div>
+</section>
+<section class="sec tight" data-collection>
+  <div class="wrap">
+    <div class="toolbar">
+      <button type="button" class="btn-filter" data-filter-open aria-controls="filters" aria-expanded="false">{% assign icon = 'filter' %}{% include 'icon' %}Bộ lọc <b data-filter-n hidden></b></button>
+      <span class="toolbar-n" aria-live="polite"><b data-count-shown>{{ collection.products.size }}</b> / {{ collection.products_count }} sản phẩm</span>
+      <label class="sort">Sắp xếp
+        <select data-sort>
+          {% if collection.handle != 'all' %}<option value="manual">Nổi bật</option>{% endif %}
+          <option value="best-selling">Bán chạy</option>
+          <option value="price-ascending">Giá tăng dần</option>
+          <option value="price-descending">Giá giảm dần</option>
+          <option value="created-descending">Mới nhất</option>
+        </select>
+      </label>
+    </div>
+    <div class="col-body">
+      <aside class="filters" id="filters" data-filters aria-label="Bộ lọc">
+        <div class="filters-hd"><b>Bộ lọc</b><button type="button" class="icon-btn" data-filter-close aria-label="Đóng bộ lọc">{% assign icon = 'close' %}{% include 'icon' %}</button></div>
+        <div class="fgroup" data-fgroup="type" hidden><p class="fgroup-h">Loại sản phẩm</p><div class="fopts"></div></div>
+        <div class="fgroup" data-fgroup="price" hidden><p class="fgroup-h">Mức giá</p><div class="fopts"></div></div>
+        <div class="fgroup"><p class="fgroup-h">Tình trạng</p><div class="fopts"><label class="fchk"><input type="checkbox" data-f-avail /> <span>Chỉ hiện hàng còn</span></label></div></div>
+        <div class="filters-ft">
+          <button type="button" class="btn btn-line" data-filter-clear>Xoá lọc</button>
+          <button type="button" class="btn btn-blue" data-filter-close>Xem <span data-count-shown>{{ collection.products.size }}</span> sản phẩm</button>
+        </div>
+      </aside>
+      <div class="col-main">
+        <div class="chips" data-chips hidden></div>
+        {% if collection.products.size == 0 %}
+        <p class="empty">Chưa có sản phẩm trong nhóm này. <a class="ulink" href="/collections/all">Xem tất cả sản phẩm</a></p>
+        {% else %}
+        <div class="grid-p grid-3" data-grid>{% for product in collection.products %}{% include 'product-card' %}{% endfor %}</div>
+        <div class="empty filter-empty" data-filter-empty hidden><p>Không có sản phẩm khớp bộ lọc.</p><button type="button" class="btn btn-line" data-filter-clear>Xoá lọc</button></div>
+        {% endif %}
+        {% include 'pagination' %}
+      </div>
+    </div>
+  </div>
+</section>
+{% endpaginate %}

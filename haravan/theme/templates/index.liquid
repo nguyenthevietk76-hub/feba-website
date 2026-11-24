@@ -1,0 +1,179 @@
+{% comment %}Trang chủ: kể câu chuyện "Test thật. Dùng tiện. Giá sinh viên." rồi dẫn vào sản phẩm{% endcomment %}
+{% assign hero = nil %}
+{% if settings.main_collection != blank %}{% for p in collections[settings.main_collection].products limit: 1 %}{% assign hero = p %}{% endfor %}{% endif %}
+{% if hero == nil %}{% for p in collections['san-pham-chu-luc'].products limit: 1 %}{% assign hero = p %}{% endfor %}{% endif %}
+{% if hero == nil %}{% for p in collections.all.products limit: 1 %}{% assign hero = p %}{% endfor %}{% endif %}
+
+<!-- 1 · MỞ ĐẦU -->
+<section class="hero" data-in>
+  <div class="wrap hero-in">
+    <div class="hero-copy">
+      <span class="kicker rv">{{ settings.hero_kicker }}</span>
+      <h1 class="hero-h1">
+        <span class="mask" style="--d:1"><span>{{ settings.hero_title }}</span></span>
+        <span class="mask" style="--d:2"><span class="em">{{ settings.hero_title_em }}</span></span>
+      </h1>
+      <p class="hero-sub rv" style="--d:3">{{ settings.hero_sub }}</p>
+      <div class="ctas rv" style="--d:4">
+        <a class="btn btn-blue" href="{% if hero %}{{ hero.url }}{% else %}/collections/all{% endif %}">{{ settings.hero_btn }} {% assign icon = 'arrow' %}{% include 'icon' %}</a>
+        <a class="btn btn-line" href="/collections/all">Xem tất cả sản phẩm</a>
+      </div>
+      {% if hero %}<p class="hero-price rv" style="--d:5">Chỉ từ <b>{{ hero.price | money }}</b>{% if hero.compare_at_price > hero.price %} <del>{{ hero.compare_at_price | money }}</del>{% endif %}</p>{% endif %}
+    </div>
+    <div class="hero-art">
+      <div class="disc" aria-hidden="true"></div>
+      <div class="orbit" aria-hidden="true"></div>
+      <div class="hero-img rv" style="--d:2">
+        {% if settings.use_hero_image %}
+        <img src="{{ 'hero.jpg' | asset_url }}" alt="{{ settings.hero_title | escape }}" width="640" height="760" fetchpriority="high" />
+        {% elsif hero and hero.images.size > 0 %}
+        <img src="{{ hero.featured_image.src | product_img_url: 'master' }}" alt="{{ hero.title | escape }}" width="640" height="760" fetchpriority="high" />
+        {% endif %}
+      </div>
+      {% for i in (1..4) %}
+        {% capture k %}hero_chip_{{ i }}{% endcapture %}{% capture s %}hero_chip_{{ i }}_sub{% endcapture %}
+        {% if settings[k] != blank %}<div class="chip c{{ i }} rv s" style="--d:{{ i | plus: 4 }}"><b>{{ settings[k] }}</b><span>{{ settings[s] }}</span></div>{% endif %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- 2 · CAM KẾT -->
+<section class="trust" aria-label="Cam kết khi mua">
+  <div class="wrap trust-in">
+    <div class="rv"><span class="ti">{% assign icon = 'shield' %}{% include 'icon' %}</span><b>{{ settings.trust_1 }}</b><span>{{ settings.trust_1_sub }}</span></div>
+    <div class="rv" style="--d:1"><span class="ti">{% assign icon = 'truck' %}{% include 'icon' %}</span><b>{{ settings.trust_2 }}</b><span>{{ settings.trust_2_sub }}</span></div>
+    <div class="rv" style="--d:2"><span class="ti">{% assign icon = 'cash' %}{% include 'icon' %}</span><b>{{ settings.trust_3 }}</b><span>{{ settings.trust_3_sub }}</span></div>
+    <div class="rv" style="--d:3"><span class="ti">{% assign icon = 'return' %}{% include 'icon' %}</span><b>{{ settings.trust_4 }}</b><span>{{ settings.trust_4_sub }}</span></div>
+  </div>
+</section>
+
+<!-- 3 · CÂU CHUYỆN: TEST THẬT -->
+<section class="sec story" data-in>
+  <div class="wrap">
+    <div class="head rv">
+      <span class="kicker">Vì sao mua ở đây</span>
+      <h2 class="h2">Test thật trước khi <em>giới thiệu.</em></h2>
+      <p class="lead">{{ settings.story_lead }}</p>
+    </div>
+    <ol class="steps">
+      <li class="rv" style="--d:1"><span class="step-n">01</span><span class="step-ic">{% assign icon = 'play' %}{% include 'icon' %}</span><h3>Dùng thử thật</h3><p>Mỗi món được dùng trong ký túc xá, giảng đường, góc học tập trước khi lên kệ.</p></li>
+      <li class="rv" style="--d:2"><span class="step-n">02</span><span class="step-ic">{% assign icon = 'check' %}{% include 'icon' %}</span><h3>Đối chiếu thông số</h3><p>Chỉ ghi thông số có trong tài liệu chính hãng Magic, không nói quá.</p></li>
+      <li class="rv" style="--d:3"><span class="step-n">03</span><span class="step-ic">{% assign icon = 'chat' %}{% include 'icon' %}</span><h3>Trả lời mọi câu hỏi</h3><p>Câu hỏi hay gặp được gom lại ngay trên từng trang sản phẩm.</p></li>
+    </ol>
+    <div class="nums">
+      <div class="rv"><b data-count="{{ collections.all.products_count }}">{{ collections.all.products_count }}</b><span>sản phẩm đang bán</span></div>
+      <div class="rv" style="--d:1"><b data-count="4">4</b><span>loại đồ dùng hằng ngày</span></div>
+      <div class="rv" style="--d:2"><b data-count="4">4</b><span>sinh viên test và tư vấn</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- 4 · MUA THEO TÌNH HUỐNG -->
+<section class="sec sec-card" aria-label="Mua theo tình huống">
+  <div class="wrap">
+    <div class="head rv"><span class="kicker">Mua theo tình huống</span><h2 class="h2">Bạn cần gì <em>hôm nay?</em></h2></div>
+    <div class="moments">
+      {% for i in (1..3) %}
+        {% capture ck %}moment_{{ i }}_collection{% endcapture %}{% capture tk %}moment_{{ i }}_title{% endcapture %}{% capture dk %}moment_{{ i }}_text{% endcapture %}
+        {% comment %}Liquid của Haravan không đọc được ngoặc lồng nhau collections[settings[ck]], phải tách làm hai bước{% endcomment %}
+        {% assign mh = settings[ck] %}{% assign mc = collections[mh] %}
+        {% if settings[ck] != blank and mc.products_count > 0 %}
+        <a class="moment rv" style="--d:{{ i }}" href="{{ mc.url }}">
+          <span class="moment-img">
+            {% for p in mc.products limit: 3 %}<img src="{{ p.featured_image.src | product_img_url: 'large' }}" alt="" loading="lazy" />{% endfor %}
+          </span>
+          <span class="moment-bd">
+            <b>{{ settings[tk] | default: mc.title }}</b>
+            <span>{{ settings[dk] }}</span>
+            <span class="moment-go">{{ mc.products_count }} sản phẩm {% assign icon = 'arrow' %}{% include 'icon' %}</span>
+          </span>
+        </a>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- 5 · SẢN PHẨM CHỦ LỰC -->
+{% if hero %}
+<section class="sec spot" data-in>
+  <div class="wrap spot-in">
+    <a class="spot-img rv l" href="{{ hero.url }}">{% if hero.images.size > 0 %}<img src="{{ hero.featured_image.src | product_img_url: 'master' }}" alt="{{ hero.title | escape }}" loading="lazy" />{% endif %}</a>
+    <div class="spot-bd">
+      <span class="kicker rv">Sản phẩm chủ lực</span>
+      <h2 class="h2 rv" style="--d:1">{{ hero.title }}</h2>
+      <ul class="hl">
+        {% for i in (1..4) %}{% capture hk %}spot_hl_{{ i }}{% endcapture %}{% if settings[hk] != blank %}<li class="rv r" style="--d:{{ i | plus: 1 }}">{% assign icon = 'check' %}{% include 'icon' %}{{ settings[hk] }}</li>{% endif %}{% endfor %}
+      </ul>
+      <div class="price big rv" style="--d:6"><b>{{ hero.price | money }}</b>{% if hero.compare_at_price > hero.price %}<del>{{ hero.compare_at_price | money }}</del>{% endif %}</div>
+      <div class="ctas rv" style="--d:7">
+        {% if hero.available and hero.variants.size == 1 %}<button type="button" class="btn btn-blue" data-quick-add="{{ hero.variants.first.id }}">{% assign icon = 'bag' %}{% include 'icon' %} Thêm vào giỏ</button>{% endif %}
+        <a class="btn btn-line" href="{{ hero.url }}">Xem chi tiết {% assign icon = 'arrow' %}{% include 'icon' %}</a>
+      </div>
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<!-- 6 · CỬA HÀNG: lọc nhanh theo nhóm ngay trên trang -->
+{% assign grid = collections[settings.grid_collection] %}
+{% if settings.grid_collection == blank or grid.products_count == 0 %}{% assign grid = collections.all %}{% endif %}
+<section class="sec" aria-label="Sản phẩm" data-tabs-grid>
+  <div class="wrap">
+    <div class="head row rv"><div><span class="kicker">Cửa hàng</span><h2 class="h2">{{ settings.grid_title | default: 'Đồ dùng sinh viên đã test' }}</h2></div><a class="ulink" href="{{ grid.url }}">Xem tất cả {{ grid.products_count }} sản phẩm</a></div>
+    <div class="tabs rv" role="tablist" aria-label="Lọc theo nhóm">
+      <button type="button" role="tab" aria-selected="true" data-tab="">Tất cả</button>
+      {% for i in (1..3) %}{% capture ck %}moment_{{ i }}_collection{% endcapture %}{% capture tk %}moment_{{ i }}_title{% endcapture %}
+      {% assign th = settings[ck] %}{% assign tc = collections[th] %}
+      {% if th != blank and tc.products_count > 0 %}<button type="button" role="tab" aria-selected="false" data-tab="{{ th }}">{{ tc.title }} <small>{{ tc.products_count }}</small></button>{% endif %}
+      {% endfor %}
+    </div>
+    <div class="grid-p" data-grid>
+      {% for product in grid.products limit: 12 %}{% include 'product-card' %}{% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- 6b · VỪA XEM (theme.js điền từ bộ nhớ trình duyệt) -->
+<section class="sec tight recent" data-recent hidden aria-label="Sản phẩm bạn vừa xem">
+  <div class="wrap">
+    <div class="head row"><div><span class="kicker">Xem lại</span><h2 class="h2 sm">Bạn vừa xem</h2></div></div>
+    <div class="rail" data-recent-list></div>
+  </div>
+</section>
+
+<!-- 7 · TIKTOK -->
+{% if settings.tiktok_link != blank %}
+<section class="sec">
+  <div class="wrap">
+    <div class="band rv">
+      <div><span class="kicker light">Video thật</span><h2>{{ settings.tiktok_title }}</h2><p>{{ settings.tiktok_text }}</p></div>
+      <a class="btn btn-white" href="{{ settings.tiktok_link }}" target="_blank" rel="noopener">{% assign icon = 'play' %}{% include 'icon' %} Xem trên TikTok</a>
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<!-- 8 · HỎI ĐÁP -->
+<section class="sec sec-card" aria-label="Hỏi đáp">
+  <div class="wrap faq-in">
+    <div class="rv"><span class="kicker">Hỏi đáp</span><h2 class="h2">Câu hỏi <em>hay gặp.</em></h2><p class="lead">Chưa thấy câu trả lời? Nhắn cho kênh, đội sẽ hướng dẫn đặt đúng trên website.</p></div>
+    <div class="faq">
+      {% for i in (1..5) %}{% capture q %}faq_{{ i }}_q{% endcapture %}{% capture a %}faq_{{ i }}_a{% endcapture %}
+      {% if settings[q] != blank %}<details class="rv" style="--d:{{ i }}"><summary>{{ settings[q] }}<span class="pm" aria-hidden="true"></span></summary><p>{{ settings[a] }}</p></details>{% endif %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{% assign fc = 0 %}{% for i in (1..5) %}{% capture q %}faq_{{ i }}_q{% endcapture %}{% capture a %}faq_{{ i }}_a{% endcapture %}{% if settings[q] != blank %}{% if fc > 0 %},{% endif %}{% assign fc = fc | plus: 1 %}{"@type":"Question","name":{{ settings[q] | json }},"acceptedAnswer":{"@type":"Answer","text":{{ settings[a] | json }} } }{% endif %}{% endfor %}]}
+</script>
+
+<!-- 9 · ĐỘI NGŨ -->
+{% if settings.team_link != blank %}
+<section class="team-strip">
+  <div class="wrap">{{ settings.team_text }} <a class="ulink" href="{{ settings.team_link }}" target="_blank" rel="noopener">Gặp đội FEBA</a></div>
+</section>
+{% endif %}

@@ -1,0 +1,23 @@
+<section class="page-hd"><div class="wrap"><h1 class="h1">{{ page.title }}</h1></div></section>
+<section class="sec tight">
+  <div class="wrap contact-in">
+    <div class="rte">{{ page.content }}
+      <ul class="buy-trust">
+        {% if settings.hotline != blank %}<li>{% assign icon = 'chat' %}{% include 'icon' %}Hotline: {{ settings.hotline }}</li>{% endif %}
+        {% if settings.contact_email != blank %}<li>{% assign icon = 'chat' %}{% include 'icon' %}Email: {{ settings.contact_email }}</li>{% endif %}
+      </ul>
+      <p class="mute small">Đơn hàng chỉ được xác nhận khi đặt trên website hoặc gian hàng chính thức, không chốt đơn qua tin nhắn.</p>
+    </div>
+    <div class="form-card">
+      {% form 'contact' %}
+        {% if form.posted_successfully? %}<p class="ok">Cảm ơn bạn, đội sẽ phản hồi sớm.</p>{% endif %}
+        {% if form.body != blank %}{{ form.errors | default_errors }}{% endif %}
+        <label for="c-name">Họ và tên</label><input id="c-name" type="text" name="contact[name]" required value="{{ form.name }}" />
+        <label for="c-email">Email</label><input id="c-email" type="email" name="contact[email]" required value="{{ form.email }}" />
+        <label for="c-phone">Số điện thoại</label><input id="c-phone" type="tel" name="contact[phone]" value="{{ form.phone }}" />
+        <label for="c-body">Nội dung</label><textarea id="c-body" name="contact[body]" rows="5" required>{{ form.body }}</textarea>
+        <button class="btn btn-blue btn-full" type="submit">Gửi</button>
+      {% endform %}
+    </div>
+  </div>
+</section>

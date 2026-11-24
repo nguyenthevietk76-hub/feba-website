@@ -1,0 +1,25 @@
+<div class="drawer" id="cart-drawer" aria-hidden="true">
+  <div class="drawer-bg" data-cart-close></div>
+  <aside class="drawer-panel" role="dialog" aria-modal="true" aria-labelledby="drawer-title">
+    <div class="drawer-hd">
+      <h2 id="drawer-title">Giỏ hàng <span class="drawer-n" data-cart-count>{{ cart.item_count }}</span></h2>
+      <button class="icon-btn" type="button" data-cart-close aria-label="Đóng giỏ hàng">{% assign icon = 'close' %}{% include 'icon' %}</button>
+    </div>
+    {% include 'free-ship' %}
+    <div class="drawer-scroll">
+    <div class="drawer-items" data-cart-items aria-live="polite">
+      <div class="sk-line"></div><div class="sk-line"></div>
+    </div>
+    <div class="drawer-extra">
+      {% include 'upsell' %}
+      {% include 'promo' %}
+    </div>
+    </div>
+    <div class="drawer-ft" data-cart-ft>
+      <div class="drawer-total"><span>Tạm tính</span><b data-cart-total>{{ cart.total_price | money }}</b></div>
+      <p class="drawer-tax">Phí giao hàng và mã giảm giá tính ở bước thanh toán.</p>
+      <a class="btn btn-blue btn-full" href="/checkout" data-checkout>Thanh toán {% assign icon = 'arrow' %}{% include 'icon' %}</a>
+      <a class="btn-txt" href="/cart">Xem giỏ hàng và ghi chú đơn</a>
+    </div>
+  </aside>
+</div>

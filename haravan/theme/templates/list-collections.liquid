@@ -1,0 +1,11 @@
+<section class="page-hd"><div class="wrap"><h1 class="h1">Nhóm sản phẩm</h1></div></section>
+<section class="sec tight">
+  <div class="wrap moments">
+    {% for c in collections %}{% if c.handle != 'frontpage' and c.products_count > 0 %}
+    <a class="moment rv" href="{{ c.url }}">
+      <span class="moment-img">{% for p in c.products limit: 3 %}<img src="{{ p.featured_image.src | product_img_url: 'large' }}" alt="" loading="lazy" />{% endfor %}</span>
+      <span class="moment-bd"><b>{{ c.title }}</b><span class="moment-go">{{ c.products_count }} sản phẩm {% assign icon = 'arrow' %}{% include 'icon' %}</span></span>
+    </a>
+    {% endif %}{% endfor %}
+  </div>
+</section>

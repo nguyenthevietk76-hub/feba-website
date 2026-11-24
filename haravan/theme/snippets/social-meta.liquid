@@ -1,0 +1,14 @@
+<meta property="og:site_name" content="{{ shop.name }}" />
+<meta property="og:url" content="{{ canonical_url }}" />
+<meta property="og:title" content="{{ page_title | escape }}" />
+{% if template contains 'product' %}
+<meta property="og:type" content="product" />
+{% if product.featured_image %}<meta property="og:image" content="https:{{ product.featured_image.src | product_img_url: 'grande' }}" />{% endif %}
+<meta property="og:price:amount" content="{{ product.price | money_without_currency | strip_html | escape }}" />
+<meta property="og:price:currency" content="VND" />
+{% else %}
+<meta property="og:type" content="website" />
+<meta property="og:image" content="https:{{ 'share.jpg' | asset_url }}" />
+{% endif %}
+{% if page_description %}<meta property="og:description" content="{{ page_description | strip_html | strip_newlines | escape }}" />{% endif %}
+<meta name="twitter:card" content="summary_large_image" />

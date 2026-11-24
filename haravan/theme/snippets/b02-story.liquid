@@ -1,0 +1,36 @@
+{% comment %}Phần kể chuyện bằng hình cho tăm nước B-02 PRO (bật bằng tag "feba-story"). Thông số theo file của Ban tổ chức.{% endcomment %}
+<section class="sec dark jet" data-in data-jet data-m="1" aria-label="Áp lực tia nước">
+  <div class="wrap jet-in">
+    <div class="jet-copy">
+      <span class="kicker light rv">Áp lực tia</span>
+      <h2 class="h2 rv" style="--d:1">20–120 PSI.<br><em>Một chạm, ba chế độ.</em></h2>
+      <div class="modes rv" style="--d:2">
+        <button type="button" data-mode="0" aria-pressed="false">Êm dịu</button>
+        <button type="button" data-mode="1" aria-pressed="true">Tiêu chuẩn</button>
+        <button type="button" data-mode="2" aria-pressed="false">Xung massage nướu</button>
+      </div>
+      <p class="rv" style="--d:3">Xung nước 1.400 nhịp mỗi phút. Bấm từng chế độ để xem tia nước thay đổi.</p>
+    </div>
+    <div class="jetbox rv r" style="--d:2" aria-hidden="true">
+      <svg viewBox="0 0 420 320" width="420" height="320">
+        <path d="M40 280 L120 280 L150 230 L150 170" fill="none" stroke="#3a3a3a" stroke-width="22" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M150 170 L176 130" fill="none" stroke="#6f6b63" stroke-width="10" stroke-linecap="round"/>
+        <path class="s1" d="M180 124 C 240 40, 330 30, 400 50"/>
+        <path class="s2" d="M186 130 C 250 60, 330 58, 400 80"/>
+      </svg>
+      <span class="lab" data-mode-name>Tiêu chuẩn</span>
+    </div>
+  </div>
+</section>
+
+<section class="sec story-feats" data-in aria-label="Điểm nổi bật">
+  <div class="wrap">
+    <div class="feats">
+      <div class="feat rv"><span class="feat-ic">{% assign icon = 'battery' %}{% include 'icon' %}</span><b data-count="20">20</b><span>ngày cho một lần sạc</span></div>
+      <div class="feat rv" style="--d:1"><span class="feat-ic">{% assign icon = 'drop' %}{% include 'icon' %}</span><b>IPX7</b><span>chống nước, rửa dưới vòi</span></div>
+      <div class="feat rv" style="--d:2"><span class="feat-ic">{% assign icon = 'rotate' %}{% include 'icon' %}</span><b>360°</b><span>đầu tăm xoay tới chỗ khó</span></div>
+      <div class="feat rv" style="--d:3"><span class="feat-ic">{% assign icon = 'shield' %}{% include 'icon' %}</span><b data-count="12">12</b><span>tháng bảo hành</span></div>
+    </div>
+    {% if settings.team_link != blank %}<p class="feats-more rv">Xem mô hình 3D tách lớp của máy tại <a class="ulink" href="{{ settings.team_link }}/san-pham" target="_blank" rel="noopener">trang của đội FEBA</a>.</p>{% endif %}
+  </div>
+</section>

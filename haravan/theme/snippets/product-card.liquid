@@ -1,0 +1,44 @@
+{% comment %}Thẻ sản phẩm dùng ở trang chủ, nhóm sản phẩm, tìm kiếm, gợi ý. Biến: product. Thuộc tính data-* để lọc và sắp xếp ngay trên trang.{% endcomment %}
+{% assign on_sale = false %}
+{% if product.compare_at_price > product.price %}{% assign on_sale = true %}{% endif %}
+{% assign pcols = '' %}{% for c in product.collections %}{% assign pcols = pcols | append: c.handle | append: ' ' %}{% endfor %}
+{% assign multi = false %}{% if product.variants.size > 1 %}{% assign multi = true %}{% endif %}
+<article class="card rv" data-card data-price="{{ product.price | money_without_currency | remove: ',' | remove: '.' }}" data-avail="{% if product.available %}1{% else %}0{% endif %}" data-type="{{ product.type | escape }}" data-cols="{{ pcols | strip }}">
+  <a class="card-img" href="{{ product.url | within: collection }}" aria-label="{{ product.title | escape }}" tabindex="-1">
+    {% if product.images.size > 0 %}
+    <img src="{{ product.featured_image.src | product_img_url: 'large' }}" alt="{{ product.featured_image.alt | default: product.title | escape }}" loading="lazy" width="480" height="480" />
+    {% if product.images.size > 1 %}<img class="alt" src="{{ product.images[1].src | product_img_url: 'large' }}" alt="" loading="lazy" width="480" height="480" />{% endif %}
+    {% else %}
+    <span class="noimg">{{ product.title }}</span>
+    {% endif %}
+    <span class="badges">
+      {% if on_sale %}<span class="badge-sale">-{{ product.compare_at_price | minus: product.price | times: 100 | divided_by: product.compare_at_price }}%</span>{% endif %}
+      {% if product.tags contains 'feba-story' %}<span class="badge-hot">Chủ lực</span>{% endif %}
+    </span>
+    {% unless product.available %}<span class="badge-out">Hết hàng</span>{% endunless %}
+  </a>
+  {% if product.available %}
+  <div class="card-act">
+    {% if multi %}
+    {% assign pick = 'Chọn loại' %}{% if product.options.first contains 'Màu' or product.options.first contains 'màu' %}{% assign pick = 'Chọn màu' %}{% endif %}
+    <button type="button" class="qa" data-quick-view="{{ product.handle }}" aria-label="{{ pick }} {{ product.title | escape }}">{% assign icon = 'eye' %}{% include 'icon' %}<span>{{ pick }}</span></button>
+    {% else %}
+    <button type="button" class="qa" data-quick-add="{{ product.variants.first.id }}" aria-label="Thêm {{ product.title | escape }} vào giỏ">{% assign icon = 'bag' %}{% include 'icon' %}<span>Thêm vào giỏ</span></button>
+    {% endif %}
+  </div>
+  {% endif %}
+  <div class="card-bd">
+    {% if product.type != blank %}<span class="card-vendor">{{ product.type }}</span>{% elsif product.vendor != blank and product.vendor != 'Khác' %}<span class="card-vendor">{{ product.vendor }}</span>{% endif %}
+    <h3 class="card-t"><a href="{{ product.url | within: collection }}">{{ product.title }}</a></h3>
+    <div class="price">
+      <b>{{ product.price | money }}</b>
+      {% if on_sale %}<del>{{ product.compare_at_price | money }}</del>{% endif %}
+    </div>
+    {% if multi %}
+    <span class="dots" aria-label="{{ product.variants.size }} lựa chọn">
+      {% for v in product.variants limit: 6 %}<i data-color="{{ v.option1 | escape }}" title="{{ v.option1 | escape }}"{% unless v.available %} class="na"{% endunless %}></i>{% endfor %}
+      {% if product.variants.size > 6 %}<em>+{{ product.variants.size | minus: 6 }}</em>{% endif %}
+    </span>
+    {% endif %}
+  </div>
+</article>

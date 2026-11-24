@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>{{ page_title | default: page.title }}{% if current_page != 1 %} · Trang {{ current_page }}{% endif %}{% unless page_title contains shop.name %} · {{ shop.name }}{% endunless %}</title>
+  {% if page_description %}<meta name="description" content="{{ page_description | strip_html | strip_newlines | truncate: 160 | escape }}" />{% endif %}
+  <link rel="canonical" href="{{ canonical_url }}" />
+  <meta name="theme-color" content="#f3f1ec" />
+  <script>document.documentElement.className += ' js';</script>
+  <meta name="format-detection" content="telephone=no" />
+  <link rel="shortcut icon" href="{{ 'favicon.png' | asset_url }}" type="image/png" />
+  <link rel="apple-touch-icon" href="{{ 'favicon.png' | asset_url }}" />
+  {% include 'social-meta' %}
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700;800&display=swap&subset=vietnamese" rel="stylesheet" />
+  {{ 'theme.css' | asset_url | stylesheet_tag }}
+  {% if settings.load_jquery or template contains 'customers' %}<script src="//hstatic.net/0/0/global/design/js/jquery.min.1.11.0.js"></script>{% endif %}
+  {% if template contains 'customers' %}
+  {{ 'option_selection.js' | haravan_asset_url | script_tag }}
+  {{ 'api.jquery.js' | haravan_asset_url | script_tag }}
+  {{ 'haravan_common.js' | haravan_asset_url | script_tag }}
+  {{ 'customer_area.js' | haravan_asset_url | script_tag }}
+  {% endif %}
+  <script>
+    window.FEBA = {
+      moneyFormat: {{ shop.money_format | json }},
+      template: {{ template | json }},
+      trackSource: {% if settings.track_source %}true{% else %}false{% endif %},
+      lowStock: {{ settings.low_stock | default: 0 | plus: 0 }},
+      shipDays: [{{ settings.ship_days_min | default: 0 | plus: 0 }}, {{ settings.ship_days_max | default: 0 | plus: 0 }}],
+      cutoffHour: {{ settings.ship_cutoff_hour | default: 0 | plus: 0 }}
+    };
+  </script>
+  {% include 'tracking' %}
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"Organization","name":{{ shop.name | json }},"url":{{ shop.url | json }},"logo":"https:{{ 'favicon.png' | asset_url }}"{% if settings.tiktok_link != blank %},"sameAs":[{{ settings.tiktok_link | json }}]{% endif %} }
+  </script>
+  {% if template == 'index' %}
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"WebSite","name":{{ shop.name | json }},"url":{{ shop.url | json }},"potentialAction":{"@type":"SearchAction","target":"{{ shop.url }}/search?type=product&q={q}","query-input":"required name=q"}}
+  </script>
+  {% endif %}
+  {{ content_for_header }}
+</head>
+<body class="tpl-{{ template | replace: '.', '-' | replace: '/', '-' }}">
+  <a class="skip" href="#noi-dung">Bỏ qua tới nội dung</a>
+
+  {% if settings.announce_show and settings.announce_text != blank %}
+  {% assign notes = settings.announce_text | split: '|' %}
+  <div class="announce" data-announce>
+    <div class="wrap announce-in">
+      {% for n in notes %}<p class="announce-i{% if forloop.first %} on{% endif %}">{% if settings.announce_link != blank %}<a href="{{ settings.announce_link }}">{{ n | strip }}</a>{% else %}{{ n | strip }}{% endif %}</p>{% endfor %}
+    </div>
+  </div>
+  {% endif %}
+
+  <header class="hdr" id="hdr">
+    <div class="wrap hdr-in">
+      <button class="icon-btn menu-btn" type="button" aria-label="Mở menu" aria-expanded="false" aria-controls="mnav">{% assign icon = 'menu' %}{% include 'icon' %}</button>
+      <a class="brand" href="/" aria-label="{{ shop.name }}, trang chủ">
+        {% if settings.use_logo %}<img src="{{ 'logo.png' | asset_url }}" alt="{{ shop.name }}" width="140" height="40" />{% else %}<span class="brand-t">{{ settings.brand_text | default: shop.name }}<i>.</i></span>{% endif %}
+      </a>
+      <nav class="nav" aria-label="Điều hướng chính">
+        {% for link in linklists.main-menu.links %}
+        {% if link.links.size > 0 %}
+        <div class="nav-dd">
+          <a href="{{ link.url }}" class="nav-top"{% if link.active %} aria-current="page"{% endif %} aria-haspopup="true">{{ link.title }}{% assign icon = 'chevron' %}{% include 'icon' %}</a>
+          <div class="dd">
+            {% for sub in link.links %}<a href="{{ sub.url }}">{{ sub.title }}</a>{% endfor %}
+            <a href="{{ link.url }}" class="dd-all">Xem tất cả {% assign icon = 'arrow' %}{% include 'icon' %}</a>
+          </div>
+        </div>
+        {% else %}
+        <a href="{{ link.url }}" class="nav-top"{% if link.active %} aria-current="page"{% endif %}>{{ link.title }}</a>
+        {% endif %}
+        {% endfor %}
+      </nav>
+      <div class="hdr-act">
+        <button class="hdr-search" type="button" data-srch-open aria-label="Tìm kiếm" aria-controls="srch">{% assign icon = 'search' %}{% include 'icon' %}<span>Tìm sản phẩm</span><kbd>/</kbd></button>
+        <a class="icon-btn hide-sm" href="/account" aria-label="Tài khoản">{% assign icon = 'user' %}{% include 'icon' %}</a>
+        <a class="icon-btn cart-btn" href="/cart" data-cart-open aria-label="Giỏ hàng, {{ cart.item_count }} sản phẩm">{% assign icon = 'bag' %}{% include 'icon' %}<b class="cart-count{% if cart.item_count == 0 %} zero{% endif %}" data-cart-count>{{ cart.item_count }}</b></a>
+      </div>
+    </div>
+    <div class="prog" id="prog"></div>
+  </header>
+
+  <div class="mnav" id="mnav" hidden>
+    <div class="mnav-bg" data-mnav-close></div>
+    <nav class="mnav-panel" aria-label="Menu">
+      <div class="mnav-hd">
+        <span class="brand-t">{{ settings.brand_text | default: shop.name }}<i>.</i></span>
+        <button class="icon-btn" type="button" data-mnav-close aria-label="Đóng menu">{% assign icon = 'close' %}{% include 'icon' %}</button>
+      </div>
+      <form action="/search" class="mnav-search" role="search">{% assign icon = 'search' %}{% include 'icon' %}<input type="hidden" name="type" value="product" /><input type="search" name="q" placeholder="Tìm sản phẩm" aria-label="Tìm sản phẩm" /></form>
+      <div class="mnav-links">
+        {% for link in linklists.main-menu.links %}
+        {% if link.links.size > 0 %}
+        <details class="mnav-sub"><summary>{{ link.title }}{% assign icon = 'chevron' %}{% include 'icon' %}</summary>
+          {% for sub in link.links %}<a href="{{ sub.url }}">{{ sub.title }}</a>{% endfor %}
+          <a href="{{ link.url }}">Xem tất cả</a>
+        </details>
+        {% else %}
+        <a href="{{ link.url }}">{{ link.title }}</a>
+        {% endif %}
+        {% endfor %}
+      </div>
+      <div class="mnav-ft">
+        <a href="/account">{% assign icon = 'user' %}{% include 'icon' %}Tài khoản và đơn hàng</a>
+        {% if settings.hotline != blank %}<a href="tel:{{ settings.hotline | remove: ' ' | remove: '.' }}">{% assign icon = 'phone' %}{% include 'icon' %}{{ settings.hotline }}</a>{% endif %}
+        {% if settings.tiktok_link != blank %}<a href="{{ settings.tiktok_link }}" target="_blank" rel="noopener">{% assign icon = 'tiktok' %}{% include 'icon' %}TikTok {{ settings.brand_text | default: shop.name }}</a>{% endif %}
+      </div>
+    </nav>
+  </div>
+
+  <main id="noi-dung">
+    {{ content_for_layout }}
+  </main>
+
+  <footer class="ftr">
+    <div class="wrap ftr-top">
+      <div class="ftr-brand">
+        <span class="brand-t">{{ settings.brand_text | default: shop.name }}<i>.</i></span>
+        <p>{{ settings.footer_about }}</p>
+        <div class="ftr-trust">
+          <span>{% assign icon = 'shield' %}{% include 'icon' %}{{ settings.trust_1 }}</span>
+          <span>{% assign icon = 'truck' %}{% include 'icon' %}{{ settings.trust_2 }}</span>
+        </div>
+      </div>
+      <div>
+        <h3>Mua sắm</h3>
+        <ul>{% for link in linklists[settings.footer_menu_1].links %}<li><a href="{{ link.url }}">{{ link.title }}</a></li>{% endfor %}</ul>
+      </div>
+      <div>
+        <h3>Hỗ trợ</h3>
+        <ul>
+          {% for link in linklists[settings.footer_menu_2].links %}<li><a href="{{ link.url }}">{{ link.title }}</a></li>{% endfor %}
+          <li><a href="/account">Tra cứu đơn hàng</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Liên hệ</h3>
+        <ul class="ftr-contact">
+          {% if settings.hotline != blank %}<li><a href="tel:{{ settings.hotline | remove: ' ' | remove: '.' }}">{% assign icon = 'phone' %}{% include 'icon' %}{{ settings.hotline }}</a></li>{% endif %}
+          {% if settings.contact_email != blank %}<li><a href="mailto:{{ settings.contact_email }}">{% assign icon = 'mail' %}{% include 'icon' %}{{ settings.contact_email }}</a></li>{% endif %}
+          {% if settings.zalo_link != blank %}<li><a href="{{ settings.zalo_link }}" target="_blank" rel="noopener">{% assign icon = 'zalo' %}{% include 'icon' %}Nhắn Zalo</a></li>{% endif %}
+          {% if settings.tiktok_link != blank %}<li><a href="{{ settings.tiktok_link }}" target="_blank" rel="noopener">{% assign icon = 'tiktok' %}{% include 'icon' %}TikTok {{ settings.brand_text | default: shop.name }}</a></li>{% endif %}
+          {% if settings.team_link != blank %}<li><a href="{{ settings.team_link }}" target="_blank" rel="noopener">{% assign icon = 'arrow' %}{% include 'icon' %}Về đội FEBA</a></li>{% endif %}
+        </ul>
+      </div>
+    </div>
+    {% if settings.payment_methods != blank %}
+    <div class="wrap ftr-pay">
+      <span>Thanh toán</span>
+      {% assign pays = settings.payment_methods | split: ',' %}{% for pm in pays %}<em>{{ pm | strip }}</em>{% endfor %}
+    </div>
+    {% endif %}
+    <div class="wrap ftr-bot">
+      <span>&copy; {{ "now" | date: "%Y" }} {{ shop.name }}. {{ settings.footer_note }}</span>
+      <span>{{ powered_by_link }}</span>
+    </div>
+  </footer>
+
+  <button type="button" class="totop" data-totop aria-label="Lên đầu trang">{% assign icon = 'up' %}{% include 'icon' %}</button>
+  {% include 'contact-float' %}
+  {% include 'search-overlay' %}
+  {% include 'cart-drawer' %}
+  {% include 'quick-view' %}
+  <script src="{{ 'theme.js' | asset_url }}" defer></script>
+</body>
+</html>

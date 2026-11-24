@@ -1,0 +1,9 @@
+{% if paginate.pages > 1 %}
+<nav class="pager" aria-label="Phân trang">
+  {% if paginate.previous %}<a class="pager-btn" href="{{ paginate.previous.url }}">Trang trước</a>{% endif %}
+  {% for part in paginate.parts %}
+    {% if part.is_link %}<a href="{{ part.url }}">{{ part.title }}</a>{% else %}<span{% if part.title == paginate.current_page %} class="on" aria-current="page"{% endif %}>{{ part.title }}</span>{% endif %}
+  {% endfor %}
+  {% if paginate.next %}<a class="pager-btn" href="{{ paginate.next.url }}">Trang sau</a>{% endif %}
+</nav>
+{% endif %}

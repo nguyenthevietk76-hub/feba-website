@@ -1,0 +1,55 @@
+<section class="sec tight"><div class="wrap narrow customer">
+<div  class="customer-box" >
+
+	<div id="layout-page"  class="clearfix">
+		<span class="header-contact header-page clearfix">
+			<h1>Tài khoản của bạn <a class="logout" href="/account/logout"><span class="fa fa-sign-out"></span>Thoát</a></h1>
+		</span>
+		<div id="customer_orders" class="col-xs-12">
+			{% if customer.orders.size != 0 %}
+			<table>
+				<thead>
+					<tr>
+						<th class="order_number text-center">Mã đơn hàng</th>
+						<th class="date text-center">Ngày đặt</th>
+						<th class="payment_status text-center">Trạng thái thanh toán</th>
+						<th class="fulfillment_status text-center">Vận chuyển</th>
+						<th class="total text-center">Tổng tiền</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for order in customer.orders %}
+					<tr class="{% cycle 'odd', 'even' %} {% if order.cancelled %}cancelled_order{% endif %}">
+						<td class="text-center">{{ order.name | link_to: order.customer_url }}</td>
+						<td class="text-center"><span>{{ order.created_at | date: "%b %d, %Y" }}</span></td>
+						<td class="text-center"><span class="status_{{ order.financial_status }}">{{ order.financial_status }}</span></td>
+						<td class="text-center"><span class="status_{{ order.fulfillment_status }}">{{ order.fulfillment_status }}</span></td>
+						<td class="text-center"><span class="total money">{{ order.total_price | money }}</span></td>
+					</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+			{% else %}
+			<p>Bạn chưa đặt mua sản phẩm.</p>
+			{% endif %}
+		</div>
+
+		<div  class="col-xs-12" id="customer_sidebar">
+			<h2>{{ customer.first_name }} {{ customer.last_name }}</h2>
+			<p class="email ">{{ customer.email }}</p>
+			<div class="address ">
+				{% if customer.default_address != nil %}
+				<p>{{ customer.default_address.address1 }}</p>
+				{% if customer.default_address.address2 != "" %}
+				<p>{{ customer.default_address.address2 }}</p>
+				{% endif %}
+				<p>{{ customer.default_address.city}} {% if address.province_code %}{{customer.default_address.province_code}}, {% endif %}{{customer.default_address.country}}</p>
+				<p>{{ customer.default_address.phone }}</p>
+				{% endif %}
+				<a id="view_address" href="/account/addresses">Xem địa chỉ</a>
+			</div>
+		</div>
+	</div>
+
+</div>
+</div></section>

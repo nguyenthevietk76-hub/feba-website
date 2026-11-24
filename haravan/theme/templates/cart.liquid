@@ -1,0 +1,63 @@
+{% comment %}Trang giỏ hàng. Không có JS vẫn dùng được (form gửi /cart); có JS thì đổi số lượng, xoá dòng tại chỗ.{% endcomment %}
+<section class="page-hd"><div class="wrap">
+  <nav class="crumbs" aria-label="Đường dẫn"><a href="/">Trang chủ</a><span>/</span><span aria-current="page">Giỏ hàng</span></nav>
+  <h1 class="h1">Giỏ hàng {% if cart.item_count > 0 %}<small class="h1-n">{{ cart.item_count }} sản phẩm</small>{% endif %}</h1>
+  <ol class="steps-bar" aria-label="Các bước đặt hàng"><li class="on">Giỏ hàng</li><li>Thông tin giao hàng</li><li>Thanh toán</li></ol>
+</div></section>
+<section class="sec tight">
+  <div class="wrap">
+    {% if cart.item_count == 0 %}
+    <div class="empty-cart">
+      <span class="empty-ic">{% assign icon = 'bag' %}{% include 'icon' %}</span>
+      <h2 class="h2 sm">Giỏ hàng đang trống</h2>
+      <p class="mute">Xem các món đội đã test, chọn món hợp với bạn.</p>
+      <a class="btn btn-blue" href="/collections/all">Tiếp tục mua sắm {% assign icon = 'arrow' %}{% include 'icon' %}</a>
+    </div>
+    {% else %}
+    <form action="/cart" method="post" class="cart-page" data-cart-page>
+      <div>
+        {% include 'free-ship' %}
+        <div class="cart-lines">
+          {% for item in cart.items %}
+          <div class="line" data-line-row="{{ forloop.index }}">
+            <a class="line-img" href="{{ item.url }}"><img src="{{ item | img_url: 'small' }}" alt="{{ item.product.title | escape }}" width="96" height="96" /></a>
+            <div class="line-bd">
+              <a class="line-t" href="{{ item.url }}">{{ item.product.title }}</a>
+              {% unless item.variant.title contains 'Default' %}<span class="line-v">{{ item.variant.title }}</span>{% endunless %}
+              <span class="line-p">{{ item.price | money }}</span>
+            </div>
+            <div class="line-q">
+              <div class="qty sm">
+                <button type="button" data-cq="-1" aria-label="Giảm">{% assign icon = 'minus' %}{% include 'icon' %}</button>
+                <input type="number" name="updates[]" id="updates_{{ item.id }}" value="{{ item.quantity }}" min="0" aria-label="Số lượng {{ item.product.title | escape }}" data-cq-input />
+                <button type="button" data-cq="1" aria-label="Tăng">{% assign icon = 'plus' %}{% include 'icon' %}</button>
+              </div>
+            </div>
+            <b class="line-total" data-line-total>{{ item.line_price | money }}</b>
+            <a class="line-rm" href="/cart/change?line={{ forloop.index }}&quantity=0" data-cq-rm aria-label="Xoá {{ item.product.title | escape }}">{% assign icon = 'trash' %}{% include 'icon' %}</a>
+          </div>
+          {% endfor %}
+        </div>
+        <a class="btn-txt back" href="/collections/all">{% assign icon = 'chev-l' %}{% include 'icon' %}Tiếp tục mua sắm</a>
+        <div class="cart-ups">{% include 'upsell' %}</div>
+      </div>
+      <aside class="cart-sum">
+        <h2 class="sum-h">Tóm tắt đơn hàng</h2>
+        {% include 'promo' %}
+        <label for="note">Ghi chú cho đơn hàng</label>
+        <textarea id="note" name="note" rows="3" placeholder="Ví dụ: giao giờ hành chính, gọi trước khi giao">{{ cart.note }}</textarea>
+        <div class="drawer-total"><span>Tạm tính</span><b data-cart-total>{{ cart.total_price | money }}</b></div>
+        <p class="mute small">Phí giao hàng và mã giảm giá được tính ở bước thanh toán.</p>
+        <button type="submit" name="checkout" class="btn btn-blue btn-full" data-checkout>Tiến hành thanh toán {% assign icon = 'arrow' %}{% include 'icon' %}</button>
+        <button type="submit" name="update" class="btn btn-line btn-full nojs-only">Cập nhật giỏ hàng</button>
+        <ul class="buy-trust">
+          <li>{% assign icon = 'shield' %}{% include 'icon' %}{{ settings.trust_1 }}</li>
+          <li>{% assign icon = 'cash' %}{% include 'icon' %}{{ settings.trust_3 }}</li>
+          <li>{% assign icon = 'truck' %}{% include 'icon' %}{{ settings.trust_2 }}</li>
+          <li>{% assign icon = 'return' %}{% include 'icon' %}{{ settings.trust_4 }}</li>
+        </ul>
+      </aside>
+    </form>
+    {% endif %}
+  </div>
+</section>
